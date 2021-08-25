@@ -3,12 +3,15 @@ package com.example.tire_dataset_build_app
 import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,10 +27,26 @@ class InfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info)
 
-        requestMultiplePermissionLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA))
-
-        val uri = FileProvider.getUriForFile(this, "file_provider", createImageFile())
-//        getCameraImage.launch(uri)
+        requestMultiplePermissionLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA))
+        val makedir = findViewById<Button>(R.id.makedir)
+        makedir.setOnClickListener {
+            getAppSpecificAlbumStorageDir(this, "hojuneeee")
+        }
+        val uri = FileProvider.getUriForFile(this, "com.example.tire_dataset_build_app.FileProvider", createImageFile())
+        getCameraImage.launch(uri)
+    }
+    fun getAppSpecificAlbumStorageDir(context: Context, albumName: String): File? {
+        // Get the pictures directory that's inside the app-specific directory on
+        // external storage.
+        val file = File(context.getExternalFilesDir(
+            Environment.DIRECTORY_PICTURES), albumName)
+        if (!file?.mkdirs()) {
+            Log.e(TAG, "Directory not created")
+        }
+        else{
+            Log.e(TAG, "getAppSpecificAlbumStorageDir: success", )
+        }
+        return file
     }
 
     private val requestMultiplePermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { resultsMap ->
@@ -45,15 +64,7 @@ class InfoActivity : AppCompatActivity() {
 
     fun createImageFile(): File {
         val timeStamp = SimpleDateFormat.getDateTimeInstance().format(Date())
-        val path = Environment.getStorageDirectory()
-        val storageDir = File(Environment.getExternalStoragePublicDirectory((Environment.DIRECTORY_DCIM), "My_directory") // 안드로이드 11부터는 root 아래에 바로 디렉토리 생성 못함. root 아래 있는 디렉토리 하나를 활용해야함
-
-        if(storageDir.mkdirs()){
-            Toast.makeText(this,"mkdirs succeed", Toast.LENGTH_SHORT).show()
-        }
-        else{
-            Toast.makeText(this,"mkdirs failed", Toast.LENGTH_SHORT).show()
-        }
+        val storageDir = getAppSpecificAlbumStorageDir(this, "tire_set") // 안드로이드 11부터는 root 아래에 바로 디렉토리 생성 못함. 노션에 정리해놨음
 
         return File.createTempFile(
             "JPEG_${timeStamp}_",

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- 앱 내부 저장소의 files/images/하위 디렉터리를 공유하겠음.
+    name은 Provider한테 path segment인 myimages를 files/images/ 하위 디렉터리에 있는 파일의 콘텐츠 URI에 추가하도록 지시
+    아마 files/images/myimages 이렇게 uri 넘기라는 말이지 않을까..?
+    맞네.. FileProvider 정의 이후에 defaut_image.jpg를 저장하면 아래 경로로 저장됌
+    content://com.example.myapp.fileprovider/myimages/default_image.jpg-->
+    <files-path
+        name="myimages"
+        path="images/" />
+
+    <!--외부 저장소를 공유하게끔 할 수도 있음-->
+    <!--    <external-files-path-->
+    <!--        name=""-->
+    <!--        path=""-->
+
+
+</paths>
