@@ -3,10 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/drawable/ic_baseline_camera_24.xml" value="0.22291666666666668" />
+        <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22291666666666668" />
         <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/activity_capture.xml" value="0.2046875" />
         <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/activity_experiment_info.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/activity_info.xml" value="0.25" />
+        <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/activity_input_result.xml" value="0.19270833333333334" />
         <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/activity_menu.xml" value="0.19895833333333332" />
+        <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/activity_mode_select.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/activity_mode_select2.xml" value="0.3515625" />
+        <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/activity_select_mode.xml" value="0.3515625" />
         <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/xml/filepaths.xml" value="0.1" />
       </map>
     </option>

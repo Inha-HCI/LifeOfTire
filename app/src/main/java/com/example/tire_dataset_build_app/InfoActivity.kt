@@ -19,6 +19,7 @@ import androidx.core.content.FileProvider
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import com.example.tire_dataset_build_app.ConnectFTP
 
 class InfoActivity : AppCompatActivity() {
     lateinit var currentPath:String
@@ -28,13 +29,16 @@ class InfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_info)
 
         requestMultiplePermissionLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA))
-        val makedir = findViewById<Button>(R.id.makedir)
-        makedir.setOnClickListener {
-            getAppSpecificAlbumStorageDir(this, "hojuneeee")
+
+        val start_shoot = findViewById<Button>(R.id.start_shoot)
+        start_shoot.setOnClickListener {
+            val intent = Intent(this, SelectModeActivity::class.java)
+            startActivity(intent)
         }
-        val uri = FileProvider.getUriForFile(this, "com.example.tire_dataset_build_app.FileProvider", createImageFile())
-        getCameraImage.launch(uri)
     }
+
+    val REQUEST_IMAGE_CAPTURE = 1
+
     fun getAppSpecificAlbumStorageDir(context: Context, albumName: String): File? {
         // Get the pictures directory that's inside the app-specific directory on
         // external storage.
