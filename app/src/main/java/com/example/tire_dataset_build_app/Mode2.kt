@@ -21,7 +21,7 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class ModeSelect1 : AppCompatActivity() {
+class Mode2 : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
 
     lateinit var mviewFinder:androidx.camera.view.PreviewView
@@ -30,7 +30,7 @@ class ModeSelect1 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mode_select)
+        setContentView(R.layout.activity_mode2)
         mviewFinder = findViewById<androidx.camera.view.PreviewView>(R.id.viewFinder)
         val mfinish = findViewById<Button>(R.id.finish)
 

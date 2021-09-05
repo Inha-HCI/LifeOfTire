@@ -14,12 +14,12 @@ class SelectModeActivity : AppCompatActivity() {
         val mode_2 = findViewById<Button>(R.id.mode2)
 
         mode_1.setOnClickListener {
-            val intent = Intent(this, CaptureActivity::class.java)
+            val intent = Intent(this, Mode1::class.java)
             startActivity(intent)
         }
 
         mode_2.setOnClickListener {
-            val intent = Intent(this, ModeSelect1::class.java)
+            val intent = Intent(this, Mode2::class.java)
             startActivity(intent)
         }
     }
