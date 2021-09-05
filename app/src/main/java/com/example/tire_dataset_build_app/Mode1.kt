@@ -17,7 +17,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
-typealias LumaListener = (luma: Double) -> Unit
+//typealias LumaListener = (luma: Double) -> Unit
 
 class Mode1 : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
