@@ -1,14 +1,17 @@
 package com.example.tire_dataset_build_app
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -31,6 +34,7 @@ class Mode2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mode2)
+        showPopup()
         mviewFinder = findViewById<androidx.camera.view.PreviewView>(R.id.viewFinder)
         val mfinish = findViewById<Button>(R.id.finish)
 
@@ -83,6 +87,19 @@ class Mode2 : AppCompatActivity() {
             }
 
         }, ContextCompat.getMainExecutor(this))
+    }
+
+    fun showPopup(){
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.mode2_popup, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("도움말")
+            .setPositiveButton("확인", null)
+            .create()
+
+        alertDialog.setView(view)
+        alertDialog.show()
     }
 
     private fun takePhoto() {

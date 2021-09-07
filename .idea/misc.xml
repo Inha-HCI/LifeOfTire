@@ -22,12 +22,12 @@
         <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/activity_select_mode.xml" value="0.33" />
         <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/activity_splash.xml" value="0.196875" />
         <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/bolder.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/border.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/mode1_popup.xml" value="0.2" />
+        <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/layout/mode2_popup.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/hojun_window/AndroidStudioProjects/Tire_dataset_build_app/app/src/main/res/xml/filepaths.xml" value="0.1" />
       </map>
     </option>
-  </component>
-  <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_splash.xml" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

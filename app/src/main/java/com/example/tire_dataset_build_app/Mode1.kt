@@ -3,12 +3,15 @@ package com.example.tire_dataset_build_app
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import java.util.concurrent.Executors
 import androidx.camera.core.*
@@ -29,6 +32,9 @@ class Mode1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mode1)
+
+        showPopup()
+
         mviewFinder = findViewById<androidx.camera.view.PreviewView>(R.id.viewFinder)
         val mfinish = findViewById<Button>(R.id.finish)
 
@@ -124,6 +130,19 @@ class Mode1 : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
+    }
+
+    fun showPopup(){
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.mode1_popup, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("도움말")
+            .setPositiveButton("확인", null)
+            .create()
+
+        alertDialog.setView(view)
+        alertDialog.show()
     }
 
     companion object {
