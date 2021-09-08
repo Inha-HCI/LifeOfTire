@@ -51,13 +51,13 @@
                 android:text="실험일" />
 
             <EditText
-                android:id="@+id/date"
+                android:id="@+id/ex_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="YYYY-MM-DD"
+                android:hint="YYYY-MM-DD HH:MM:SS"
                 android:inputType="datetime" />
 
 
@@ -76,7 +76,7 @@
                 android:text="실험자" />
 
             <EditText
-                android:id="@+id/df"
+                android:id="@+id/experimenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -100,7 +100,7 @@
                 android:text="장소" />
 
             <EditText
-                android:id="@+id/place"
+                android:id="@+id/ex_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -144,7 +144,7 @@
                 android:text="실험회차" />
 
             <EditText
-                android:id="@+id/ex_num"
+                android:id="@+id/ex_round"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

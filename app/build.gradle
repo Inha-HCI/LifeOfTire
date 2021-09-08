@@ -40,6 +40,8 @@ dependencies {
     implementation files('libs\\commons-net-3.8.0.jar')
     implementation files('libs\\commons-net-3.8.0-sources.jar')
     implementation files('libs\\commons-net-examples-3.8.0.jar')
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
 
     def camerax_version = "1.0.1"
 // CameraX core library using camera2 implementation
