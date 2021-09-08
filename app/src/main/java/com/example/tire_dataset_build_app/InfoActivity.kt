@@ -38,15 +38,19 @@ class InfoActivity : AppCompatActivity() {
         requestMultiplePermissionLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA))
 
         val start_shoot = findViewById<Button>(R.id.start_shoot)
+        val date = System.currentTimeMillis()
+        val sdf = SimpleDateFormat("YYYY-MM-dd HH:mm:ss")
+        val dateString = sdf.format(date)
+        var ex_date = findViewById<TextView>(R.id.ex_date)
+        ex_date.setText(dateString)
+
+        val experimenter = findViewById<TextView>(R.id.experimenter).text.toString()
+        val ex_place = findViewById<TextView>(R.id.ex_place).text.toString()
+        val tire_model = findViewById<TextView>(R.id.tire_model).text.toString()
+        val ex_round = findViewById<TextView>(R.id.ex_round).text.toString().toInt()
 
         start_shoot.setOnClickListener {
             val intent = Intent(this, SelectModeActivity::class.java)
-
-//            val ex_date = findViewById<TextView>(R.id.ex_date).text.toString()
-//            val experimenter = findViewById<TextView>(R.id.experimenter).text.toString()
-//            val ex_place = findViewById<TextView>(R.id.ex_place).text.toString()
-//            val tire_model = findViewById<TextView>(R.id.tire_model).text.toString()
-//            val ex_round = findViewById<TextView>(R.id.ex_round).text.toString().toInt()
 
             val BASE_URL_HyungJeong_API = "http://1.214.35.242:80/"
             val retrofit = Retrofit.Builder()
@@ -55,19 +59,20 @@ class InfoActivity : AppCompatActivity() {
                 .build()
 
             val api = retrofit.create(HyunjeongAPI::class.java)
-//            val callResult = api.getResult(ex_date, experimenter, ex_place, tire_model, ex_round)
-            val callResult = api.getResult()
+            val callResult = api.getResult(ex_date.text.toString(), experimenter, ex_place, tire_model, ex_round)
 
             callResult.enqueue(object: Callback<ResultFromAPI>{
                 override fun onResponse(call: Call<ResultFromAPI>, response: Response<ResultFromAPI>) {
-                    Log.d("결과", "성공: ${response.body()?.result_code}")
+                    Log.d("결과", "성공!")
+                    Log.d(TAG, "onResponse: "+response.body()?.sid)
+                    intent.putExtra("dir_name", "/" + response.body()?.sid)
+                    startActivity(intent)
                 }
 
                 override fun onFailure(call: Call<ResultFromAPI>, t: Throwable) {
                     Log.d("결과", "실패: $t")
                 }
             })
-            startActivity(intent)
         }
     }
 
@@ -82,7 +87,7 @@ class InfoActivity : AppCompatActivity() {
             Log.e(TAG, "Directory not created")
         }
         else{
-            Log.e(TAG, "getAppSpecificAlbumStorageDir: success", )
+            Log.e(TAG, "getAppSpecificAlbumStorageDir: success")
         }
         return file
     }

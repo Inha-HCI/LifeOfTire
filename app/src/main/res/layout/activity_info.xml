@@ -57,8 +57,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="YYYY-MM-DD HH:MM:SS"
-                android:inputType="datetime" />
+                android:inputType="number" />
 
 
         </LinearLayout>
@@ -80,9 +79,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="홍길동"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="양호준"
                 android:inputType="textPersonName" />
 
 
@@ -106,7 +105,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="인하대학교"
+                android:text="한국자동차연구원 영암지부"
                 android:inputType="text" />
         </LinearLayout>
 
@@ -128,7 +127,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="한국타이어"
+                android:text="SOLUS TA 51"
                 android:inputType="text" />
         </LinearLayout>
 
@@ -149,8 +148,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:text="1"
                 android:gravity="center"
-                android:hint="3"
                 android:inputType="number" />
         </LinearLayout>
     </LinearLayout>

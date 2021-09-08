@@ -18,9 +18,10 @@ class InputResultActivity : AppCompatActivity() {
         setContentView(R.layout.activity_input_result)
         
         val mstorebt = findViewById<Button>(R.id.ftp_store)
-
+        val mIntent = getIntent()
+        val dir_name = mIntent.getStringExtra("dir_name")
         val path =externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name))}
+            File(it, resources.getString(R.string.app_name) + dir_name)}
 
         val mConnectFTP = ConnectFTP()
         thread(start=true){
@@ -40,11 +41,12 @@ class InputResultActivity : AppCompatActivity() {
             thread(start=true){
                 var imgList = path?.listFiles()
                 val len:Int? = imgList?.lastIndex
+                mConnectFTP.ftpCreateDirectory(dir_name)        // dir_name인 directory 생성
 
                 for(i:Int in 0..len!!){
                     var imgFile_path = imgList?.get(i)?.path
                     var saved_name = imgFile_path?.split('/')?.last()
-                    mConnectFTP.ftpUploadFile(imgFile_path, saved_name, "/")
+                    mConnectFTP.ftpUploadFile(imgFile_path, saved_name, "/" + dir_name)
                 }
                 runOnUiThread {
                     Toast.makeText(this, "Upload Done", Toast.LENGTH_LONG).show()

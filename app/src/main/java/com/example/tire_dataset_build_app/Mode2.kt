@@ -26,7 +26,7 @@ import java.util.concurrent.Executors
 
 class Mode2 : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
-
+    private lateinit var dir_name:String
     lateinit var mviewFinder:androidx.camera.view.PreviewView
     private lateinit var outputDirectory:File
     private lateinit var cameraExecutor: ExecutorService
@@ -37,11 +37,13 @@ class Mode2 : AppCompatActivity() {
         showPopup()
         mviewFinder = findViewById<androidx.camera.view.PreviewView>(R.id.viewFinder)
         val mfinish = findViewById<Button>(R.id.finish)
-
+        var mIntent = getIntent()
+        dir_name = mIntent.getStringExtra("dir_name").toString()        // 왜 굳이 toString()을 또 해줘야 하지?
         val mtakebt = findViewById<ImageButton>(R.id.camera_capture_button)
 
         mfinish.setOnClickListener {
             val intent = Intent(this, InputResultActivity::class.java)
+            intent.putExtra("dir_name",dir_name)
             startActivity(intent)
         }
 
@@ -136,7 +138,7 @@ class Mode2 : AppCompatActivity() {
 
     private fun getOutputDirectory(): File {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdirs() } }
+            File(it, resources.getString(R.string.app_name) + dir_name).apply { mkdirs() } }
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else filesDir
     }
