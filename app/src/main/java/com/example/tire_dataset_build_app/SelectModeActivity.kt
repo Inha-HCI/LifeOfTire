@@ -18,6 +18,7 @@ class SelectModeActivity : AppCompatActivity() {
         val mode_1 = findViewById<Button>(R.id.mode1)
         val mode_2 = findViewById<Button>(R.id.mode2)
         val mode_3 = findViewById<Button>(R.id.mode3)
+        val mode_4 = findViewById<Button>(R.id.mode4)
 
 
 

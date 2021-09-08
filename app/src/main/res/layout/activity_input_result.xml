@@ -60,7 +60,7 @@
                 android:ems="10"
                 android:gravity="center"
                 android:hint="(dobule)"
-                android:inputType="number" />
+                android:inputType="phone" />
 
 
         </LinearLayout>
@@ -85,7 +85,7 @@
                 android:ems="10"
                 android:gravity="center"
                 android:hint="(dobule)"
-                android:inputType="number" />
+                android:inputType="phone" />
 
 
         </LinearLayout>
@@ -109,7 +109,7 @@
                 android:ems="10"
                 android:gravity="center"
                 android:hint="(dobule)"
-                android:inputType="number" />
+                android:inputType="phone" />
 
         </LinearLayout>
 
@@ -132,7 +132,7 @@
                 android:ems="10"
                 android:gravity="center"
                 android:hint="(dobule)"
-                android:inputType="number" />
+                android:inputType="phone" />
 
         </LinearLayout>
 
@@ -155,7 +155,7 @@
                 android:ems="10"
                 android:gravity="center"
                 android:hint="(dobule)"
-                android:inputType="number" />
+                android:inputType="phone" />
 
         </LinearLayout>
     </LinearLayout>
