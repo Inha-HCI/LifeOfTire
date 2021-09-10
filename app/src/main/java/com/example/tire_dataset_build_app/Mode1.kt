@@ -33,19 +33,20 @@ class Mode1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mode1)
-
         showPopup()
-        var mIntent = getIntent()
-        dir_name = mIntent.getStringExtra("dir_name").toString()        // 왜 굳이 toString()을 또 해줘야 하지?
-        sid = mIntent.getStringArrayExtra("sid").toString()
         mviewFinder = findViewById<androidx.camera.view.PreviewView>(R.id.viewFinder)
         val mfinish = findViewById<Button>(R.id.finish)
-
+        var mIntent = getIntent()
+        dir_name = mIntent.getStringExtra("dir_name").toString()        // 왜 굳이 toString()을 또 해줘야 하지?
+        sid = mIntent.getStringExtra("sid").toString()
         val mtakebt = findViewById<ImageButton>(R.id.camera_capture_button)
+        Log.d("mode1", "sid: " + sid)
+
 
         mfinish.setOnClickListener {
             val intent = Intent(this, InputResultActivity::class.java)
             intent.putExtra("dir_name", dir_name)
+            intent.putExtra("sid", sid)
             startActivity(intent)
         }
 

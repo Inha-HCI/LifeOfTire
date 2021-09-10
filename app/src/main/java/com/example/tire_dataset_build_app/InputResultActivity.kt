@@ -29,19 +29,19 @@ class InputResultActivity : AppCompatActivity() {
         var mIntent = getIntent()
 
         val sid = mIntent.getStringExtra("sid").toString()
-
-        val depth1 = findViewById<EditText>(R.id.num1).text.toString()
-        val depth2 = findViewById<EditText>(R.id.num2).text.toString()
-        val depth3 = findViewById<EditText>(R.id.num3).text.toString()
-        val depth4 = findViewById<EditText>(R.id.num4).text.toString()
-        val depth5 = findViewById<EditText>(R.id.num5).text.toString()
-        val depth6 = findViewById<EditText>(R.id.num6).text.toString()
-        val depth7 = findViewById<EditText>(R.id.num7).text.toString()
-        val depth8 = findViewById<EditText>(R.id.num8).text.toString()
-        val depth9 = findViewById<EditText>(R.id.num9).text.toString()
-        val depth10 = findViewById<EditText>(R.id.num10).text.toString()
-        val depth11 = findViewById<EditText>(R.id.num11).text.toString()
-        val depth12 = findViewById<EditText>(R.id.num12).text.toString()
+        Log.d(TAG, "inputreslutact: " + sid)
+        val depth1 = findViewById<EditText>(R.id.num1)
+        val depth2 = findViewById<EditText>(R.id.num2)
+        val depth3 = findViewById<EditText>(R.id.num3)
+        val depth4 = findViewById<EditText>(R.id.num4)
+        val depth5 = findViewById<EditText>(R.id.num5)
+        val depth6 = findViewById<EditText>(R.id.num6)
+        val depth7 = findViewById<EditText>(R.id.num7)
+        val depth8 = findViewById<EditText>(R.id.num8)
+        val depth9 = findViewById<EditText>(R.id.num9)
+        val depth10 = findViewById<EditText>(R.id.num10)
+        val depth11 = findViewById<EditText>(R.id.num11)
+        val depth12 = findViewById<EditText>(R.id.num12)
 
         val mstorebt = findViewById<Button>(R.id.ftp_store)
 
@@ -71,11 +71,12 @@ class InputResultActivity : AppCompatActivity() {
                 .build()
 
             val api = retrofit.create(HyunjeongAPI::class.java)
-            val callResult = api.insert_ex_data(sid, depth1, depth2,depth3,depth4,depth5,depth6,depth7,depth8,depth9,depth10,depth11,depth12)
+            val callResult = api.insert_ex_data(sid, depth1.text.toString(), depth2.text.toString(),depth3.text.toString(),depth4.text.toString(),depth5.text.toString(),depth6.text.toString(),depth7.text.toString(),depth8.text.toString(),depth9.text.toString(),depth10.text.toString(),depth11.text.toString(),depth12.text.toString())
 
             callResult.enqueue(object: Callback<Result_insert_ex_data> {
                 override fun onResponse(call: Call<Result_insert_ex_data>, response: Response<Result_insert_ex_data>) {
-                    Log.d("final 결과", "성공!")
+                    Log.d("final 결과", "성공!" + response.body()?.result_msg)
+                    Log.d("final sid 값", sid)
                 }
 
                 override fun onFailure(call: Call<Result_insert_ex_data>, t: Throwable) {

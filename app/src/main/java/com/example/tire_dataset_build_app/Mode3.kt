@@ -46,6 +46,7 @@ class Mode3 : AppCompatActivity() {
         mfinish.setOnClickListener {
             val intent = Intent(this, InputResultActivity::class.java)
             intent.putExtra("dir_name",dir_name)
+            intent.putExtra("sid", sid)
             startActivity(intent)
         }
 

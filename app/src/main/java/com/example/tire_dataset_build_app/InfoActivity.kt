@@ -43,11 +43,11 @@ class InfoActivity : AppCompatActivity() {
         val dateString = sdf.format(date)
         var ex_date = findViewById<TextView>(R.id.ex_date)
         ex_date.setText(dateString)
+        val experimenter = findViewById<TextView>(R.id.experimenter)
+        val ex_place = findViewById<TextView>(R.id.ex_place)
+        val tire_model = findViewById<TextView>(R.id.tire_model)
+        val ex_round = findViewById<TextView>(R.id.ex_round)
 
-        val experimenter = findViewById<TextView>(R.id.experimenter).text.toString()
-        val ex_place = findViewById<TextView>(R.id.ex_place).text.toString()
-        val tire_model = findViewById<TextView>(R.id.tire_model).text.toString()
-        val ex_round = findViewById<TextView>(R.id.ex_round).text.toString().toInt()
 
         start_shoot.setOnClickListener {
             val intent = Intent(this, SelectModeActivity::class.java)
@@ -59,7 +59,7 @@ class InfoActivity : AppCompatActivity() {
                 .build()
 
             val api = retrofit.create(HyunjeongAPI::class.java)
-            val callResult = api.getResult(ex_date.text.toString(), experimenter, ex_place, tire_model, ex_round)
+            val callResult = api.getResult(ex_date.text.toString(), experimenter.text.toString(), ex_place.text.toString(), tire_model.text.toString(), ex_round.text.toString().toInt())
 
             callResult.enqueue(object: Callback<ResultFromAPI>{
                 override fun onResponse(call: Call<ResultFromAPI>, response: Response<ResultFromAPI>) {

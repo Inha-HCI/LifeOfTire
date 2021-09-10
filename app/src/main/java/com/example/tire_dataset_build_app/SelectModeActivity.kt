@@ -13,6 +13,7 @@ class SelectModeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_select_mode)
         var mIntent = getIntent()
         val dir_name = mIntent.getStringExtra("dir_name")
+        val sid = mIntent.getStringExtra("sid")
         Log.d(TAG, "onCreate: " + dir_name)
 
         val mode_1 = findViewById<Button>(R.id.mode1)
@@ -25,18 +26,22 @@ class SelectModeActivity : AppCompatActivity() {
         mode_1.setOnClickListener {
             val intent = Intent(this, Mode1::class.java)
             intent.putExtra("dir_name", dir_name)
+            intent.putExtra("sid", sid)
+            Log.d(TAG, "selectmode: " + sid)
             startActivity(intent)
         }
 
         mode_2.setOnClickListener {
             val intent = Intent(this, Mode2::class.java)
             intent.putExtra("dir_name", dir_name)
+            intent.putExtra("sid", sid)
             startActivity(intent)
         }
 
         mode_3.setOnClickListener {
             val intent = Intent(this, Mode3::class.java)
             intent.putExtra("dir_name", dir_name)
+            intent.putExtra("sid", sid)
             startActivity(intent)
         }
     }
