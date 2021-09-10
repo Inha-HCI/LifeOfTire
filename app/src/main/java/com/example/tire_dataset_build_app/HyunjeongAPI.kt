@@ -9,7 +9,6 @@ import java.util.*
 
 interface HyunjeongAPI{
     @GET("API/new_experiment.asp")
-
     fun getResult(
         @Query("ex_date") date: String,
         @Query("experimenter") name: String,

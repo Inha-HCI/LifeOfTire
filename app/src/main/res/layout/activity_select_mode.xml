@@ -7,28 +7,30 @@
     tools:context=".SelectModeActivity">
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="232dp"
-        android:layout_height="281dp"
-        android:layout_marginTop="50dp"
-        android:background="@layout/border"
-        android:padding="7dp"
-        android:scaleType="fitXY"
+        android:id="@+id/imageView"
+        android:layout_width="140dp"
+        android:layout_height="141dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="200dp"
+        android:layout_marginBottom="61dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tire_1_12" />
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/tire_app_icon" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="67dp"
-        android:text="12개 측정점 위치 사진입니다."
-        android:textSize="20sp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="25dp"
+        android:text="카메라 모드 선택"
+        android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/mode1"
@@ -40,15 +42,17 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.73" />
+        app:layout_constraintVertical_bias="0.44" />
 
     <Button
         android:id="@+id/mode2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="100dp"
         android:text="Mode 2"
         android:textColor="@color/white"
@@ -64,6 +68,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="100dp"
         android:text="Mode 3"
         android:textColor="@color/white"
@@ -79,6 +84,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="100dp"
         android:text="Mode 4"
         android:textColor="@color/white"
