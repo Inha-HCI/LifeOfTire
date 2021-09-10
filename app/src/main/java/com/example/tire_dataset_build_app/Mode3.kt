@@ -24,7 +24,7 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class Mode2 : AppCompatActivity() {
+class Mode3 : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private lateinit var dir_name:String
     lateinit var mviewFinder:androidx.camera.view.PreviewView
@@ -34,7 +34,7 @@ class Mode2 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mode2)
+        setContentView(R.layout.activity_mode3)
         showPopup()
         mviewFinder = findViewById<androidx.camera.view.PreviewView>(R.id.viewFinder)
         val mfinish = findViewById<Button>(R.id.finish)
@@ -95,7 +95,7 @@ class Mode2 : AppCompatActivity() {
 
     fun showPopup(){
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.mode2_popup, null)
+        val view = inflater.inflate(R.layout.mode3_popup, null)
 
         val alertDialog = AlertDialog.Builder(this)
             .setTitle("도움말")

@@ -25,6 +25,7 @@ import java.util.concurrent.ExecutorService
 class Mode1 : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private lateinit var dir_name:String
+    private lateinit var sid:String
     lateinit var mviewFinder:androidx.camera.view.PreviewView
     private lateinit var outputDirectory:File
     private lateinit var cameraExecutor:ExecutorService
@@ -36,6 +37,7 @@ class Mode1 : AppCompatActivity() {
         showPopup()
         var mIntent = getIntent()
         dir_name = mIntent.getStringExtra("dir_name").toString()        // 왜 굳이 toString()을 또 해줘야 하지?
+        sid = mIntent.getStringArrayExtra("sid").toString()
         mviewFinder = findViewById<androidx.camera.view.PreviewView>(R.id.viewFinder)
         val mfinish = findViewById<Button>(R.id.finish)
 

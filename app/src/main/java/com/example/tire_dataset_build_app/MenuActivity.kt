@@ -20,7 +20,5 @@ class MenuActivity : AppCompatActivity() {
             val intent = Intent(this, InfoActivity::class.java)
             startActivity(intent)
         }
-
-
     }
 }

@@ -66,6 +66,7 @@ class InfoActivity : AppCompatActivity() {
                     Log.d("결과", "성공!")
                     Log.d(TAG, "onResponse: "+response.body()?.sid)
                     intent.putExtra("dir_name", "/" + response.body()?.sid)
+                    intent.putExtra("sid", response.body()?.sid)
                     startActivity(intent)
                 }
 

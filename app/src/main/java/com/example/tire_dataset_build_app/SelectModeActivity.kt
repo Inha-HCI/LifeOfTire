@@ -33,5 +33,11 @@ class SelectModeActivity : AppCompatActivity() {
             intent.putExtra("dir_name", dir_name)
             startActivity(intent)
         }
+
+        mode_3.setOnClickListener {
+            val intent = Intent(this, Mode3::class.java)
+            intent.putExtra("dir_name", dir_name)
+            startActivity(intent)
+        }
     }
 }
