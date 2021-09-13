@@ -9,15 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import java.io.File
@@ -35,26 +29,26 @@ class Mode : AppCompatActivity() {
     private var image_id:Int = 0
     lateinit var mviewFinder:androidx.camera.view.PreviewView
     private var imageCapture: ImageCapture? = null
+    private var camera : Camera? = null
+    private var cameraController : CameraControl? = null
+    private var cameraInfo: CameraInfo? = null
+    private var num_of_pic:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mode)
 
-
-
-
         mviewFinder = findViewById<androidx.camera.view.PreviewView>(R.id.viewFinder)
         val mfinish = findViewById<Button>(R.id.finish)
+        val mtakebt = findViewById<ImageButton>(R.id.camera_capture_button)
+        val flash = findViewById<Button>(R.id.flash)
         var mIntent = getIntent()
+        findViewById<ImageView>(R.id.tire_image).setImageResource(image_id)
         dir_name = mIntent.getStringExtra("dir_name").toString()        // 왜 굳이 toString()을 또 해줘야 하지?
         sid = mIntent.getStringExtra("sid").toString()
         image_id = mIntent.getIntExtra("image_id", 0)
 
-        Log.d(TAG, "onCreate: image id check " + image_id)
         showPopup()
-        findViewById<ImageView>(R.id.tire_image).setImageResource(image_id)
-
-        val mtakebt = findViewById<ImageButton>(R.id.camera_capture_button)
 
         mfinish.setOnClickListener {
             val intent = Intent(this, InputResultActivity::class.java)
@@ -65,6 +59,22 @@ class Mode : AppCompatActivity() {
 
         mtakebt.setOnClickListener {
             takePhoto()
+            num_of_pic += 1
+            findViewById<TextView>(R.id.num).setText(num_of_pic.toString())
+        }
+
+        flash.setOnClickListener {
+            when(cameraInfo?.torchState?.value){
+                TorchState.ON -> {
+                    cameraController?.enableTorch(false)
+                    findViewById<TextView>(R.id.flash).setText("플래쉬 켜기")
+                }
+                TorchState.OFF -> {
+                    cameraController?.enableTorch(true)
+                    findViewById<TextView>(R.id.flash).setText("플래쉬 끄기")
+                }
+            }
+
         }
 
         startCamera()
@@ -97,8 +107,11 @@ class Mode : AppCompatActivity() {
                 cameraProvider.unbindAll()
 
                 // Bind use cases to camera
-                cameraProvider.bindToLifecycle(
+                camera = cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageCapture)
+
+                cameraController = camera!!.cameraControl
+                cameraInfo = camera!!.cameraInfo
 
             } catch(exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
