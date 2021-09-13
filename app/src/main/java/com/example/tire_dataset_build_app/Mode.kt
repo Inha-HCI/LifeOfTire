@@ -3,6 +3,7 @@ package com.example.tire_dataset_build_app
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.CameraSelector
@@ -24,28 +26,39 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class Mode3 : AppCompatActivity() {
-    private var imageCapture: ImageCapture? = null
+class Mode : AppCompatActivity() {
+
     private lateinit var dir_name:String
-    lateinit var mviewFinder:androidx.camera.view.PreviewView
     private lateinit var sid:String
-    private lateinit var outputDirectory:File
+    private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
+    private var image_id:Int = 0
+    lateinit var mviewFinder:androidx.camera.view.PreviewView
+    private var imageCapture: ImageCapture? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mode3)
-        showPopup()
+        setContentView(R.layout.activity_mode)
+
+
+
+
         mviewFinder = findViewById<androidx.camera.view.PreviewView>(R.id.viewFinder)
         val mfinish = findViewById<Button>(R.id.finish)
         var mIntent = getIntent()
         dir_name = mIntent.getStringExtra("dir_name").toString()        // 왜 굳이 toString()을 또 해줘야 하지?
         sid = mIntent.getStringExtra("sid").toString()
+        image_id = mIntent.getIntExtra("image_id", 0)
+
+        Log.d(TAG, "onCreate: image id check " + image_id)
+        showPopup()
+        findViewById<ImageView>(R.id.tire_image).setImageResource(image_id)
+
         val mtakebt = findViewById<ImageButton>(R.id.camera_capture_button)
 
         mfinish.setOnClickListener {
             val intent = Intent(this, InputResultActivity::class.java)
-            intent.putExtra("dir_name",dir_name)
+            intent.putExtra("dir_name", dir_name)
             intent.putExtra("sid", sid)
             startActivity(intent)
         }
@@ -94,19 +107,6 @@ class Mode3 : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-    fun showPopup(){
-        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.mode3_popup, null)
-
-        val alertDialog = AlertDialog.Builder(this)
-            .setTitle("도움말")
-            .setPositiveButton("확인", null)
-            .create()
-
-        alertDialog.setView(view)
-        alertDialog.show()
-    }
-
     private fun takePhoto() {
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCapture ?: return       // takePhoto 함수 실행했을 때 imageCapture가 Null이면 return으로 바로 함수 종료.
@@ -132,7 +132,6 @@ class Mode3 : AppCompatActivity() {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
-
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
                 }
@@ -149,6 +148,20 @@ class Mode3 : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
+    }
+
+    fun showPopup(){
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.mode_popup, null)
+        view.findViewById<ImageView>(R.id.pu_tire_image).setImageResource(image_id)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("도움말")
+            .setPositiveButton("확인", null)
+            .create()
+
+        alertDialog.setView(view)
+        alertDialog.show()
     }
 
     companion object {

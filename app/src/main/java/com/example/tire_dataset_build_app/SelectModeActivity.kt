@@ -24,24 +24,27 @@ class SelectModeActivity : AppCompatActivity() {
 
 
         mode_1.setOnClickListener {
-            val intent = Intent(this, Mode1::class.java)
+            val intent = Intent(this, Mode::class.java)
             intent.putExtra("dir_name", dir_name)
             intent.putExtra("sid", sid)
+            intent.putExtra("image_id", R.drawable.tire1)
             Log.d(TAG, "selectmode: " + sid)
             startActivity(intent)
         }
 
         mode_2.setOnClickListener {
-            val intent = Intent(this, Mode2::class.java)
+            val intent = Intent(this, Mode::class.java)
             intent.putExtra("dir_name", dir_name)
             intent.putExtra("sid", sid)
+            intent.putExtra("image_id", R.drawable.tire2)
             startActivity(intent)
         }
 
         mode_3.setOnClickListener {
-            val intent = Intent(this, Mode3::class.java)
+            val intent = Intent(this, Mode::class.java)
             intent.putExtra("dir_name", dir_name)
             intent.putExtra("sid", sid)
+            intent.putExtra("image_id", R.drawable.tire3)
             startActivity(intent)
         }
     }
