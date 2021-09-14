@@ -21,9 +21,6 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class Mode : AppCompatActivity() {
-
-    private lateinit var dir_name:String
-    private lateinit var sid:String
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
     private var image_id:Int = 0
@@ -32,35 +29,39 @@ class Mode : AppCompatActivity() {
     private var camera : Camera? = null
     private var cameraController : CameraControl? = null
     private var cameraInfo: CameraInfo? = null
-    private var num_of_pic:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mode)
-
         mviewFinder = findViewById<androidx.camera.view.PreviewView>(R.id.viewFinder)
+        findViewById<TextView>(R.id.num).setText(StoreVariable.num_of_pic.toString())
         val mfinish = findViewById<Button>(R.id.finish)
         val mtakebt = findViewById<ImageButton>(R.id.camera_capture_button)
+        val mode_select = findViewById<Button>(R.id.select_mode)
         val flash = findViewById<Button>(R.id.flash)
+
         var mIntent = getIntent()
+
+        image_id = mIntent.getIntExtra("image_id", -999)
+
         findViewById<ImageView>(R.id.tire_image).setImageResource(image_id)
-        dir_name = mIntent.getStringExtra("dir_name").toString()        // 왜 굳이 toString()을 또 해줘야 하지?
-        sid = mIntent.getStringExtra("sid").toString()
-        image_id = mIntent.getIntExtra("image_id", 0)
 
         showPopup()
 
+        mode_select.setOnClickListener {
+            val intent = Intent(this, SelectModeActivity::class.java)
+            startActivity(intent)
+        }
+
         mfinish.setOnClickListener {
             val intent = Intent(this, InputResultActivity::class.java)
-            intent.putExtra("dir_name", dir_name)
-            intent.putExtra("sid", sid)
             startActivity(intent)
         }
 
         mtakebt.setOnClickListener {
             takePhoto()
-            num_of_pic += 1
-            findViewById<TextView>(R.id.num).setText(num_of_pic.toString())
+            StoreVariable.num_of_pic = StoreVariable.num_of_pic!!+ 1
+            findViewById<TextView>(R.id.num).setText(StoreVariable.num_of_pic.toString())
         }
 
         flash.setOnClickListener {
@@ -87,6 +88,7 @@ class Mode : AppCompatActivity() {
 
         cameraProviderFuture.addListener(Runnable {
             // Used to bind the lifecycle of cameras to the lifecycle owner
+
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
             // Preview
@@ -153,7 +155,7 @@ class Mode : AppCompatActivity() {
 
     private fun getOutputDirectory(): File {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name) + dir_name).apply { mkdirs() } }
+            File(it, resources.getString(R.string.app_name) + StoreVariable.dir_name).apply { mkdirs() } }
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else filesDir
     }

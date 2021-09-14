@@ -40,6 +40,7 @@
 
         <activity
             android:name=".SelectModeActivity"
+            android:launchMode="singleInstance"
             android:exported="true" />
         <activity
             android:name=".InputResultActivity"
@@ -57,6 +58,7 @@
 
         <activity
             android:name=".InfoActivity"
+            android:launchMode="singleInstance"
             android:exported="true" />
         <activity
             android:name=".MenuActivity"

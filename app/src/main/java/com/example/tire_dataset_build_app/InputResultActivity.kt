@@ -28,8 +28,7 @@ class InputResultActivity : AppCompatActivity() {
         setContentView(R.layout.activity_input_result)
         var mIntent = getIntent()
 
-        val sid = mIntent.getStringExtra("sid").toString()
-        Log.d(TAG, "inputreslutact: " + sid)
+        Log.d(TAG, "inputResult: sid check" + StoreVariable.sid)
         val depth1 = findViewById<EditText>(R.id.num1)
         val depth2 = findViewById<EditText>(R.id.num2)
         val depth3 = findViewById<EditText>(R.id.num3)
@@ -45,9 +44,8 @@ class InputResultActivity : AppCompatActivity() {
 
         val mstorebt = findViewById<Button>(R.id.ftp_store)
 
-        val dir_name = mIntent.getStringExtra("dir_name")
-        val path =externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name) + dir_name)}
+        val path = externalMediaDirs.firstOrNull()?.let {
+            File(it, resources.getString(R.string.app_name) + StoreVariable.dir_name)}
 
         val mConnectFTP = ConnectFTP()
         thread(start=true){
@@ -71,12 +69,12 @@ class InputResultActivity : AppCompatActivity() {
                 .build()
 
             val api = retrofit.create(HyunjeongAPI::class.java)
-            val callResult = api.insert_ex_data(sid, depth1.text.toString(), depth2.text.toString(),depth3.text.toString(),depth4.text.toString(),depth5.text.toString(),depth6.text.toString(),depth7.text.toString(),depth8.text.toString(),depth9.text.toString(),depth10.text.toString(),depth11.text.toString(),depth12.text.toString())
+            val callResult = api.insert_ex_data(StoreVariable.sid!!, depth1.text.toString(), depth2.text.toString(),depth3.text.toString(),depth4.text.toString(),depth5.text.toString(),depth6.text.toString(),depth7.text.toString(),depth8.text.toString(),depth9.text.toString(),depth10.text.toString(),depth11.text.toString(),depth12.text.toString())
 
             callResult.enqueue(object: Callback<Result_insert_ex_data> {
                 override fun onResponse(call: Call<Result_insert_ex_data>, response: Response<Result_insert_ex_data>) {
                     Log.d("final 결과", "성공!" + response.body()?.result_msg)
-                    Log.d("final sid 값", sid)
+                    Log.d("final sid 값", StoreVariable.sid!!)
                 }
 
                 override fun onFailure(call: Call<Result_insert_ex_data>, t: Throwable) {
@@ -87,15 +85,18 @@ class InputResultActivity : AppCompatActivity() {
             thread(start=true){
                 var imgList = path?.listFiles()
                 val len:Int? = imgList?.lastIndex
-                mConnectFTP.ftpCreateDirectory(dir_name)        // dir_name인 directory 생성
+                mConnectFTP.ftpCreateDirectory(StoreVariable.dir_name)        // dir_name인 directory 생성
 
                 for(i:Int in 0..len!!){
                     var imgFile_path = imgList?.get(i)?.path
                     var saved_name = imgFile_path?.split('/')?.last()
-                    mConnectFTP.ftpUploadFile(imgFile_path, saved_name, "/" + dir_name)
+                    mConnectFTP.ftpUploadFile(imgFile_path, saved_name, "/" + StoreVariable.dir_name)
                 }
                 runOnUiThread {
-                    Toast.makeText(this, "Upload Done", Toast.LENGTH_LONG).show()
+                    Log.d(TAG, "onCreate: Upload Done")
+                    val intent = Intent(this, InfoActivity::class.java)
+                    startActivity(intent)
+//                    Toast.makeText(this, "Upload Done", Toast.LENGTH_LONG).show()
                 }
             }
         }

@@ -27,6 +27,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.example.tire_dataset_build_app.StoreVariable
 
 class InfoActivity : AppCompatActivity() {
     lateinit var currentPath:String
@@ -65,8 +66,8 @@ class InfoActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<ResultFromAPI>, response: Response<ResultFromAPI>) {
                     Log.d("결과", "성공!")
                     Log.d(TAG, "onResponse: "+response.body()?.sid)
-                    intent.putExtra("dir_name", "/" + response.body()?.sid)
-                    intent.putExtra("sid", response.body()?.sid)
+                    StoreVariable.dir_name = response.body()?.sid
+                    StoreVariable.sid = response.body()?.sid
                     startActivity(intent)
                 }
 
