@@ -4,362 +4,217 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_background"
     tools:context=".InputResultActivity">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="140dp"
-        android:layout_height="148dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="200dp"
-        android:background="@layout/border"
-        android:padding="7dp"
-        android:scaleType="fitXY"
+    <TextView
+        android:background="@android:color/white"
+        android:id="@+id/textView"
+        style="@style/IntroductionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="타이어 측정결과 입력"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tire_1_12" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="120dp"
-        android:layout_marginEnd="25dp"
-        android:text="측정결과 입력"
-        android:textSize="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:text="측정점 번호"
-        android:textSize="14dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="64dp"
-        android:text="측정 깊이(mm)"
-        android:textSize="14dp"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
     <ScrollView
-        android:id="@+id/scroll_view"
-        android:layout_width="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toTopOf="@id/ftp_store"
-        app:layout_constraintTop_toBottomOf="@id/imageView2">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:layout_marginTop="100dp"
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1번" />
+
+            <EditText
+                android:id="@+id/num1"
+                android:inputType="number"
+                style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="1번" />
+            <TextView
+                style="@style/CategoricalText"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2번" />
 
-                <EditText
-                    android:id="@+id/num1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="(dobule)"
-                    android:inputType="phone" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/num2"
+                android:inputType="number"
+                style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="2번" />
+            <TextView
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3번" />
 
-                <EditText
-                    android:id="@+id/num2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="(dobule)"
-                    android:inputType="phone" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/num3"
+                android:inputType="number"
+                style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="3번" />
+            <TextView
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4번" />
 
-                <EditText
-                    android:id="@+id/num3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="(dobule)"
-                    android:inputType="phone" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/num4"
+                android:inputType="number"
+                style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="4번" />
+            <TextView
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5번" />
 
-                <EditText
-                    android:id="@+id/num4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="(dobule)"
-                    android:inputType="phone" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/num5"
+                android:inputType="number"
+                style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="5번" />
+            <TextView
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6번" />
 
-                <EditText
-                    android:id="@+id/num5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="(dobule)"
-                    android:inputType="phone" />
-            </LinearLayout>
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/num6"
+                android:inputType="number"
+                style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="6번" />
+            <TextView
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7번" />
 
-                <EditText
-                    android:id="@+id/num6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="(dobule)"
-                    android:inputType="phone" />
-            </LinearLayout>
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/num7"
+                android:inputType="number"
+                style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="7번" />
+            <TextView
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8번" />
 
-                <EditText
-                    android:id="@+id/num7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="(dobule)"
-                    android:inputType="phone" />
-            </LinearLayout>
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/num8"
+                android:inputType="number"
+                style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="8번" />
+            <TextView
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9번" />
 
-                <EditText
-                    android:id="@+id/num8"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="(dobule)"
-                    android:inputType="phone" />
-            </LinearLayout>
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/num9"
+                android:inputType="number"
+                style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="9번" />
+            <TextView
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10번" />
 
-                <EditText
-                    android:id="@+id/num9"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="(dobule)"
-                    android:inputType="phone" />
-            </LinearLayout>
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/num10"
+                android:inputType="number"
+                style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="10번" />
+            <TextView
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="11번" />
 
-                <EditText
-                    android:id="@+id/num10"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="(dobule)"
-                    android:inputType="phone" />
-            </LinearLayout>
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/num11"
+                android:inputType="number"
+                style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="11번" />
+            <TextView
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12번" />
 
-                <EditText
-                    android:id="@+id/num11"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="(dobule)"
-                    android:inputType="phone" />
-            </LinearLayout>
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/num12"
+                android:inputType="number"
+                style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="12번" />
-
-                <EditText
-                    android:id="@+id/num12"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="(dobule)"
-                    android:inputType="phone" />
-            </LinearLayout>
+                android:layout_height="wrap_content" />
         </LinearLayout>
-
     </ScrollView>
 
-
+    <ProgressBar
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:id="@+id/progressBar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/ftp_store"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"
+        android:progress="0"/>
     <Button
         android:id="@+id/ftp_store"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="110dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="30dp"
+        android:textSize="20dp"
         android:text="저장"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scroll_view"
-        app:layout_constraintVertical_bias="0.985" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

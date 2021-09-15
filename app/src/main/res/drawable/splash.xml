@@ -3,7 +3,7 @@
     <item android:drawable="@android:color/background_light" />
     <item>
         <bitmap
-            android:src="@drawable/tire_app_icon"
+            android:src="@drawable/ai_networks"
             android:gravity="center"/>
     </item>
 </layer-list>

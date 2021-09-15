@@ -1,6 +1,7 @@
 package com.example.tire_dataset_build_app
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -9,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.*
@@ -38,7 +41,7 @@ class Mode : AppCompatActivity() {
         val mfinish = findViewById<Button>(R.id.finish)
         val mtakebt = findViewById<ImageButton>(R.id.camera_capture_button)
         val mode_select = findViewById<Button>(R.id.select_mode)
-        val flash = findViewById<Button>(R.id.flash)
+        val flash = findViewById<ImageButton>(R.id.flash)
 
         var mIntent = getIntent()
 
@@ -58,6 +61,21 @@ class Mode : AppCompatActivity() {
             startActivity(intent)
         }
 
+        mtakebt.setOnTouchListener(object:View.OnTouchListener{
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when(event?.action){
+                    MotionEvent.ACTION_DOWN ->{
+                        mtakebt.setImageResource(R.drawable.camera_on_click)
+                    }
+
+                    MotionEvent.ACTION_UP ->{
+                        mtakebt.setImageResource(R.drawable.camera_no_click)
+                    }
+                }
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+        
         mtakebt.setOnClickListener {
             takePhoto()
             StoreVariable.num_of_pic = StoreVariable.num_of_pic!!+ 1
@@ -68,11 +86,11 @@ class Mode : AppCompatActivity() {
             when(cameraInfo?.torchState?.value){
                 TorchState.ON -> {
                     cameraController?.enableTorch(false)
-                    findViewById<TextView>(R.id.flash).setText("플래쉬 켜기")
+                    findViewById<ImageButton>(R.id.flash).setImageResource(R.drawable.flash_off)
                 }
                 TorchState.OFF -> {
                     cameraController?.enableTorch(true)
-                    findViewById<TextView>(R.id.flash).setText("플래쉬 끄기")
+                    findViewById<ImageButton>(R.id.flash).setImageResource(R.drawable.flash_on)
                 }
             }
 
@@ -147,7 +165,7 @@ class Mode : AppCompatActivity() {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
                 }
             })

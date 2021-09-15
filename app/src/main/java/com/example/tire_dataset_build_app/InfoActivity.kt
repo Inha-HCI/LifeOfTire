@@ -2,6 +2,7 @@ package com.example.tire_dataset_build_app
 
 import android.Manifest
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -11,9 +12,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
@@ -30,25 +29,36 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.example.tire_dataset_build_app.StoreVariable
 
 class InfoActivity : AppCompatActivity() {
-    lateinit var currentPath:String
-
+    lateinit var currentPath: String
+    private var btExDate:EditText? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info)
 
-        requestMultiplePermissionLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA))
+        requestMultiplePermissionLauncher.launch(
+            arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+            )
+        )
+
 
         val start_shoot = findViewById<Button>(R.id.start_shoot)
         val date = System.currentTimeMillis()
-        val sdf = SimpleDateFormat("YYYY-MM-dd HH:mm:ss")
+        val sdf = SimpleDateFormat("YYYY-MM-dd")
         val dateString = sdf.format(date)
-        var ex_date = findViewById<TextView>(R.id.ex_date)
-        ex_date.setText(dateString)
+        findViewById<TextView>(R.id.ex_date).setText(dateString)
+
         val experimenter = findViewById<TextView>(R.id.experimenter)
         val ex_place = findViewById<TextView>(R.id.ex_place)
         val tire_model = findViewById<TextView>(R.id.tire_model)
         val ex_round = findViewById<TextView>(R.id.ex_round)
+        btExDate = findViewById<EditText>(R.id.ex_date)
 
+        btExDate!!.setOnClickListener {
+            showDatePicker()
+        }
 
         start_shoot.setOnClickListener {
             val intent = Intent(this, SelectModeActivity::class.java)
@@ -60,12 +70,21 @@ class InfoActivity : AppCompatActivity() {
                 .build()
 
             val api = retrofit.create(HyunjeongAPI::class.java)
-            val callResult = api.getResult(ex_date.text.toString(), experimenter.text.toString(), ex_place.text.toString(), tire_model.text.toString(), ex_round.text.toString().toInt())
+            val callResult = api.getResult(
+                btExDate!!.text.toString(),
+                experimenter.text.toString(),
+                ex_place.text.toString(),
+                tire_model.text.toString(),
+                ex_round.text.toString().toInt()
+            )
 
-            callResult.enqueue(object: Callback<ResultFromAPI>{
-                override fun onResponse(call: Call<ResultFromAPI>, response: Response<ResultFromAPI>) {
+            callResult.enqueue(object : Callback<ResultFromAPI> {
+                override fun onResponse(
+                    call: Call<ResultFromAPI>,
+                    response: Response<ResultFromAPI>
+                ) {
                     Log.d("결과", "성공!")
-                    Log.d(TAG, "onResponse: "+response.body()?.sid)
+                    Log.d(TAG, "onResponse: " + response.body()?.sid)
                     StoreVariable.dir_name = response.body()?.sid
                     StoreVariable.sid = response.body()?.sid
                     startActivity(intent)
@@ -80,36 +99,60 @@ class InfoActivity : AppCompatActivity() {
 
     val REQUEST_IMAGE_CAPTURE = 1
 
+    private fun showDatePicker() {
+        val cal = Calendar.getInstance()
+        DatePickerDialog(this, DatePickerDialog.OnDateSetListener { datePicker, y, m, d ->
+            var m = m + 1
+            var month:String? = m.toString()
+            var day:String? = d.toString()
+
+            if(m < 10){
+                month = "0" + m.toString()
+            }
+            if(d < 10){
+                day  = "0" + d.toString() ;
+            }
+            btExDate!!.setText("$y-" + month + "-" + day)
+        }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH + 5), cal.get(Calendar.DATE)).show()
+    }
+
     fun getAppSpecificAlbumStorageDir(context: Context, albumName: String): File? {
         // Get the pictures directory that's inside the app-specific directory on
         // external storage.
-        val file = File(context.getExternalFilesDir(
-            Environment.DIRECTORY_PICTURES), albumName)
+        val file = File(
+            context.getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES
+            ), albumName
+        )
         if (!file?.mkdirs()) {
             Log.e(TAG, "Directory not created")
-        }
-        else{
+        } else {
             Log.e(TAG, "getAppSpecificAlbumStorageDir: success")
         }
         return file
     }
 
-    private val requestMultiplePermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { resultsMap ->
-        resultsMap.forEach {
-            Log.i(ContentValues.TAG, "Permission: ${it.key}, granted: ${it.value}")
+    private val requestMultiplePermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { resultsMap ->
+            resultsMap.forEach {
+                Log.i(ContentValues.TAG, "Permission: ${it.key}, granted: ${it.value}")
+            }
         }
-    }
 
-    private val getCameraImage = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        if (success) {
-            Log.i(ContentValues.TAG, "Got image")
-            //Do something with the image uri, go nuts!
+    private val getCameraImage =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            if (success) {
+                Log.i(ContentValues.TAG, "Got image")
+                //Do something with the image uri, go nuts!
+            }
         }
-    }
 
     fun createImageFile(): File {
         val timeStamp = SimpleDateFormat.getDateTimeInstance().format(Date())
-        val storageDir = getAppSpecificAlbumStorageDir(this, "tire_set") // 안드로이드 11부터는 root 아래에 바로 디렉토리 생성 못함. 노션에 정리해놨음
+        val storageDir = getAppSpecificAlbumStorageDir(
+            this,
+            "tire_set"
+        ) // 안드로이드 11부터는 root 아래에 바로 디렉토리 생성 못함. 노션에 정리해놨음
 
         return File.createTempFile(
             "JPEG_${timeStamp}_",

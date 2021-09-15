@@ -5,10 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import java.io.File
 import com.example.tire_dataset_build_app.ConnectFTP
 import org.apache.commons.net.ftp.FTP
@@ -43,7 +41,7 @@ class InputResultActivity : AppCompatActivity() {
         val depth12 = findViewById<EditText>(R.id.num12)
 
         val mstorebt = findViewById<Button>(R.id.ftp_store)
-
+        val mProgressBar = findViewById<ProgressBar>(R.id.progressBar1)
         val path = externalMediaDirs.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name) + StoreVariable.dir_name)}
 
@@ -62,6 +60,8 @@ class InputResultActivity : AppCompatActivity() {
         // 쓰레드에서 파일 저장을 호출하지 말고 이렇게 리스너로만 호출해보자
         // 이렇게 분리하니까 되는데 왜 되는거지..?
         mstorebt.setOnClickListener {
+            mProgressBar.visibility = View.VISIBLE
+
             val BASE_URL_HyungJeong_API = "http://1.214.35.242:80/"
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL_HyungJeong_API)
@@ -83,20 +83,24 @@ class InputResultActivity : AppCompatActivity() {
             })
 
             thread(start=true){
+                var tempPercent :Int
                 var imgList = path?.listFiles()
                 val len:Int? = imgList?.lastIndex
+
                 mConnectFTP.ftpCreateDirectory(StoreVariable.dir_name)        // dir_name인 directory 생성
 
                 for(i:Int in 0..len!!){
                     var imgFile_path = imgList?.get(i)?.path
                     var saved_name = imgFile_path?.split('/')?.last()
                     mConnectFTP.ftpUploadFile(imgFile_path, saved_name, "/" + StoreVariable.dir_name)
+                    tempPercent = (i.toFloat() / len.toFloat() * 100).toInt()
+                    Log.d(TAG, "i / len" + (i.toFloat() / len.toFloat()))
+                    Log.d(TAG, "tempPercent" + tempPercent)
+                    mProgressBar.progress = tempPercent
                 }
                 runOnUiThread {
-                    Log.d(TAG, "onCreate: Upload Done")
                     val intent = Intent(this, InfoActivity::class.java)
                     startActivity(intent)
-//                    Toast.makeText(this, "Upload Done", Toast.LENGTH_LONG).show()
                 }
             }
         }
