@@ -12,6 +12,8 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,6 +29,10 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.example.tire_dataset_build_app.StoreVariable
+import android.widget.EditText
+
+
+
 
 class InfoActivity : AppCompatActivity() {
     lateinit var currentPath: String
@@ -54,11 +60,24 @@ class InfoActivity : AppCompatActivity() {
         val ex_place = findViewById<TextView>(R.id.ex_place)
         val tire_model = findViewById<TextView>(R.id.tire_model)
         val ex_round = findViewById<TextView>(R.id.ex_round)
+
+
+
         btExDate = findViewById<EditText>(R.id.ex_date)
 
         btExDate!!.setOnClickListener {
             showDatePicker()
         }
+
+        val et_experimenter = findViewById<EditText>(R.id.experimenter)
+        val et_ex_place = findViewById<EditText>(R.id.ex_place)
+        val et_tire_model = findViewById<EditText>(R.id.tire_model)
+        val et_ex_round = findViewById<EditText>(R.id.ex_round)
+
+        hideKeypad(et_experimenter)
+        hideKeypad(et_ex_place)
+        hideKeypad(et_tire_model)
+        hideKeypad(et_ex_round)
 
         start_shoot.setOnClickListener {
             val intent = Intent(this, SelectModeActivity::class.java)
@@ -98,6 +117,11 @@ class InfoActivity : AppCompatActivity() {
     }
 
     val REQUEST_IMAGE_CAPTURE = 1
+
+    private fun hideKeypad(et:EditText) {
+        val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(et.windowToken, 0)
+    }
 
     private fun showDatePicker() {
         val cal = Calendar.getInstance()

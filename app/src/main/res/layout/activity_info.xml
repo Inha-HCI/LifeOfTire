@@ -35,7 +35,7 @@
             style="@style/CategoricalText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="10dp"
             android:text="실험일"
             app:layout_constraintBottom_toTopOf="@+id/ex_date"
             app:layout_constraintEnd_toEndOf="parent"

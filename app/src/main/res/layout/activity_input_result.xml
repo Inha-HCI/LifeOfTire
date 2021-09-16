@@ -42,10 +42,10 @@
 
             <EditText
                 android:id="@+id/num1"
-                android:inputType="number"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
 
             <TextView
                 style="@style/CategoricalText"
@@ -56,7 +56,7 @@
 
             <EditText
                 android:id="@+id/num2"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -69,7 +69,7 @@
 
             <EditText
                 android:id="@+id/num3"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -82,7 +82,7 @@
 
             <EditText
                 android:id="@+id/num4"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -95,7 +95,7 @@
 
             <EditText
                 android:id="@+id/num5"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -108,7 +108,7 @@
 
             <EditText
                 android:id="@+id/num6"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -121,7 +121,7 @@
 
             <EditText
                 android:id="@+id/num7"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -134,7 +134,7 @@
 
             <EditText
                 android:id="@+id/num8"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -147,7 +147,7 @@
 
             <EditText
                 android:id="@+id/num9"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -160,7 +160,7 @@
 
             <EditText
                 android:id="@+id/num10"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -173,7 +173,7 @@
 
             <EditText
                 android:id="@+id/num11"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -186,7 +186,7 @@
 
             <EditText
                 android:id="@+id/num12"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

@@ -44,9 +44,7 @@ class Mode : AppCompatActivity() {
         val flash = findViewById<ImageButton>(R.id.flash)
 
         var mIntent = getIntent()
-
         image_id = mIntent.getIntExtra("image_id", -999)
-
         findViewById<ImageView>(R.id.tire_image).setImageResource(image_id)
 
         showPopup()
