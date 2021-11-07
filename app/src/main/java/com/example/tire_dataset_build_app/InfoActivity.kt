@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -30,8 +31,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.example.tire_dataset_build_app.StoreVariable
 import android.widget.EditText
-
-
+import androidx.appcompat.app.AlertDialog
+import okhttp3.OkHttpClient
+import java.util.concurrent.TimeUnit
 
 
 class InfoActivity : AppCompatActivity() {
@@ -60,8 +62,7 @@ class InfoActivity : AppCompatActivity() {
         val ex_place = findViewById<TextView>(R.id.ex_place)
         val tire_model = findViewById<TextView>(R.id.tire_model)
         val ex_round = findViewById<TextView>(R.id.ex_round)
-
-
+        val ex_server = findViewById<EditText>(R.id.ex_server)
 
         btExDate = findViewById<EditText>(R.id.ex_date)
 
@@ -79,41 +80,54 @@ class InfoActivity : AppCompatActivity() {
         hideKeypad(et_tire_model)
         hideKeypad(et_ex_round)
 
-        start_shoot.setOnClickListener {
-            val intent = Intent(this, SelectModeActivity::class.java)
+        try {
+            start_shoot.setOnClickListener {
+                val intent = Intent(this, SelectModeActivity::class.java)
+                val okHttpClient = OkHttpClient.Builder()
+                    .connectTimeout(1,TimeUnit.SECONDS)
+                    .build()
 
-            val BASE_URL_HyungJeong_API = "http://1.214.35.242:80/"
-            val retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL_HyungJeong_API)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+                val BASE_URL_HyungJeong_API = ex_server.text.toString()
+                val retrofit = Retrofit.Builder()
+                    .baseUrl(BASE_URL_HyungJeong_API)
+                    .client(okHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
 
-            val api = retrofit.create(HyunjeongAPI::class.java)
-            val callResult = api.getResult(
-                btExDate!!.text.toString(),
-                experimenter.text.toString(),
-                ex_place.text.toString(),
-                tire_model.text.toString(),
-                ex_round.text.toString().toInt()
-            )
+                val api = retrofit.create(HyunjeongAPI::class.java)
+                val callResult = api.getResult(
+                    btExDate!!.text.toString(),
+                    experimenter.text.toString(),
+                    ex_place.text.toString(),
+                    tire_model.text.toString(),
+                    ex_round.text.toString().toInt()
+                )
 
-            callResult.enqueue(object : Callback<ResultFromAPI> {
-                override fun onResponse(
-                    call: Call<ResultFromAPI>,
-                    response: Response<ResultFromAPI>
-                ) {
-                    Log.d("결과", "성공!")
-                    Log.d(TAG, "onResponse: " + response.body()?.sid)
-                    StoreVariable.dir_name = response.body()?.sid
-                    StoreVariable.sid = response.body()?.sid
-                    startActivity(intent)
-                }
+                callResult.enqueue(object : Callback<ResultFromAPI> {
+                    override fun onResponse(
+                        call: Call<ResultFromAPI>,
+                        response: Response<ResultFromAPI>
+                    ) {
+                        Log.d("결과", "성공!")
+                        Log.d(TAG, "onResponse: " + response.body()?.sid)
+                        StoreVariable.dir_name = response.body()?.sid
+                        StoreVariable.sid = response.body()?.sid
+                        startActivity(intent)
+                    }
 
-                override fun onFailure(call: Call<ResultFromAPI>, t: Throwable) {
-                    Log.d("결과", "실패: $t")
-                }
-            })
+                    override fun onFailure(call: Call<ResultFromAPI>, t: Throwable) {
+                        Log.d("결과", "실패: $t")
+                        showPopup()
+                    }
+                })
+            }
         }
+
+        catch (e:java.lang.IllegalArgumentException){
+            showPopup()
+            Log.e(TAG, "onCreate: eeeee", )
+        }
+
     }
 
     val REQUEST_IMAGE_CAPTURE = 1
@@ -154,6 +168,19 @@ class InfoActivity : AppCompatActivity() {
             Log.e(TAG, "getAppSpecificAlbumStorageDir: success")
         }
         return file
+    }
+
+    fun showPopup(){
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.no_connection_popup, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("연결 오류")
+            .setPositiveButton("확인", null)
+            .create()
+
+        alertDialog.setView(view)
+        alertDialog.show()
     }
 
     private val requestMultiplePermissionLauncher =

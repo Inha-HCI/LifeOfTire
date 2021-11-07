@@ -22,6 +22,7 @@ class SelectModeActivity : AppCompatActivity() {
         val mode_2 = findViewById<Button>(R.id.mode2)
         val mode_3 = findViewById<Button>(R.id.mode3)
         val mode_4 = findViewById<Button>(R.id.mode4)
+        val mode_5 = findViewById<Button>(R.id.mode5)
 
         mode_1.setOnClickListener {
             val intent = Intent(this, Mode::class.java)
@@ -44,6 +45,12 @@ class SelectModeActivity : AppCompatActivity() {
         mode_4.setOnClickListener {
             val intent = Intent(this, Mode::class.java)
             intent.putExtra("image_id", R.drawable.tire4)
+            startActivity(intent)
+        }
+
+        mode_5.setOnClickListener {
+            val intent = Intent(this, Mode::class.java)
+            intent.putExtra("image_id", R.drawable.tire5)
             startActivity(intent)
         }
     }
