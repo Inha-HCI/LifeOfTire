@@ -12,18 +12,19 @@
         style="@style/IntroductionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:padding="20dp"
         android:text="실험정보 입력"
-        android:background="@android:color/white"
 
+        app:layout_constraintBottom_toTopOf="@+id/scroll1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/scroll1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +33,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView2"
@@ -115,15 +116,60 @@
                 style="@style/CategoricalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FTP 서버" />
+                android:text="API Base uri" />
 
             <EditText
-                android:id="@+id/ex_server"
+                android:id="@+id/api_base"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:inputType="textUri"
-                android:text="http://1.214.35.242:80/" />
+                android:text="http://1.214.35.242/" />
+
+            <TextView
+                android:id="@+id/textView8"
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FTP Server with Port" />
+
+            <EditText
+                android:id="@+id/ftp_server"
+                style="@style/EditTextFormat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textUri"
+                android:text="1.214.35.242:1314" />
+
+            <TextView
+                android:id="@+id/textView9"
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Name (FTP Server)" />
+
+            <EditText
+                android:id="@+id/username"
+                style="@style/EditTextFormat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textUri"
+                android:text="ainetworks" />
+
+            <TextView
+                android:id="@+id/textView10"
+                style="@style/CategoricalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="password (FTP server)" />
+
+            <EditText
+                android:id="@+id/password"
+                style="@style/EditTextFormat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textUri"
+                android:text="ainetworks123" />
 
             <Button
                 android:id="@+id/start_shoot"
@@ -133,6 +179,10 @@
                 android:text="촬영 시작"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
+
+
+
+
         </LinearLayout>
     </ScrollView>
 

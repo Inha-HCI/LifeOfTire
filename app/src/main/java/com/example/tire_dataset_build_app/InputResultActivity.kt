@@ -46,9 +46,16 @@ class InputResultActivity : AppCompatActivity() {
             File(it, resources.getString(R.string.app_name) + StoreVariable.dir_name)}
 
         val mConnectFTP = ConnectFTP()
+
+        val ftp_server = StoreVariable.ftp_server
+        val host = ftp_server!!.split(":")[0]
+        val port = ftp_server!!.split(":")[1]
+        val username = StoreVariable.username
+        val password = StoreVariable.password
+
         thread(start=true){
             var status:Boolean = false
-            status = mConnectFTP.ftpConnect("1.214.35.242", "ainetworks", "ainetworks123", 1314)
+            status = mConnectFTP.ftpConnect(host, username, password, port.toInt())
             if(status == true){
                 Log.d(TAG, "Conection success")
             }

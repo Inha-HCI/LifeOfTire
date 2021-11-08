@@ -62,7 +62,10 @@ class InfoActivity : AppCompatActivity() {
         val ex_place = findViewById<TextView>(R.id.ex_place)
         val tire_model = findViewById<TextView>(R.id.tire_model)
         val ex_round = findViewById<TextView>(R.id.ex_round)
-        val ex_server = findViewById<EditText>(R.id.ex_server)
+        val api_base = findViewById<EditText>(R.id.api_base)
+        val ftp_server = findViewById<EditText>(R.id.ftp_server)
+        val username = findViewById<EditText>(R.id.username)
+        val password = findViewById<EditText>(R.id.password)
 
         btExDate = findViewById<EditText>(R.id.ex_date)
 
@@ -87,7 +90,7 @@ class InfoActivity : AppCompatActivity() {
                     .connectTimeout(1,TimeUnit.SECONDS)
                     .build()
 
-                val BASE_URL_HyungJeong_API = ex_server.text.toString()
+                val BASE_URL_HyungJeong_API = api_base.text.toString()
                 val retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL_HyungJeong_API)
                     .client(okHttpClient)
@@ -110,8 +113,12 @@ class InfoActivity : AppCompatActivity() {
                     ) {
                         Log.d("결과", "성공!")
                         Log.d(TAG, "onResponse: " + response.body()?.sid)
+
                         StoreVariable.dir_name = response.body()?.sid
                         StoreVariable.sid = response.body()?.sid
+                        StoreVariable.ftp_server = ftp_server.text.toString()
+                        StoreVariable.username = username.text.toString()
+                        StoreVariable.password = password.text.toString()
                         startActivity(intent)
                     }
 

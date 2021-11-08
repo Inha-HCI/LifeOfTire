@@ -6,5 +6,8 @@ class StoreVariable {
         var dir_name:String?= null
         var sid:String?= null
         var num_of_pic:Int?=0
+        var ftp_server:String?=null
+        var username:String?=null
+        var password:String?=null
     }
 }
