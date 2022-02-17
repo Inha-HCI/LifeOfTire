@@ -13,6 +13,10 @@
   - 딥러닝 기법으로 접근
     - (Mobilenet v3 모델)해서 classification으로 학습
 
+## 깃허브 공부할 때 추천하는 블로그
+- 구독, 좋아요, 알람설정 :)  
+[Juneer blog](https://yanghojun.github.io/categories/%EA%B9%83%ED%97%88%EB%B8%8C)
+
 # 일정
 - 3월 1일까지  
   - [ ] 인공지능 모델 모바일 어플리케이션 탑재
