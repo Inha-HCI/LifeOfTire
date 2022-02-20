@@ -59,6 +59,18 @@
 
 ## 이문형
 - [ ] Write something..
+- [ ] DataSet (Nas에 Tire_data.zip 올려둠 )
+   * [Trie Dataset]
+   * [2021091610417708]
+     * [img1.jpg]
+     * [img2.jpg]
+   * [2021091610417709]
+     * [file11.ext]
+     * [file12.ext]
+- [ ] Dataset code **tire_Dataset.py** update 주석참고 (22_02_20)
+- [ ] 원본 이미지 해상도 __3024 x 4032__ 리사이징시 타이어 마모선이 보이지않는 이슈 및 데이터 사이즈가 너무 커짐  
+- [ ] RGB 형태가 아닌, gray_scale 로 변경 필요성 및 이미지 분할 필요 -> 해당작업은 0222 ATG 츨장이후 추가적인 방법 생각해봄 
+   
 
 ## 정회준
 - [ ] Write something..
