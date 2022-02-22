@@ -15,7 +15,6 @@
 
     <application
         android:allowBackup="true"
-
         android:icon="@drawable/tire_app_icon"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
@@ -24,9 +23,11 @@
         android:theme="@style/Theme.Tire_dataset_build_app"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".PredictSelectActivity"
+            android:exported="false" />
+        <activity
             android:name=".Mode"
             android:exported="true" />
-
         <activity
             android:name=".SplashActivity"
             android:exported="true"
@@ -34,20 +35,19 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".SelectModeActivity"
-            android:screenOrientation="portrait"
+            android:exported="true"
             android:launchMode="singleInstance"
-            android:exported="true" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".InputResultActivity"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -61,13 +61,13 @@
 
         <activity
             android:name=".InfoActivity"
-            android:screenOrientation="portrait"
+            android:exported="true"
             android:launchMode="singleInstance"
-            android:exported="true" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MenuActivity"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
