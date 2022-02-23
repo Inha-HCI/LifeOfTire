@@ -13,6 +13,19 @@ from tqdm import tqdm
 from glob import glob
 
 
+#img 자르기 
+def split_img(img,split_cnt = 3):
+    w,h,_ = np.shape(img)
+    init_w = w//split_cnt
+    init_h = h//split_cnt
+    pices = []
+    for i in range(split_cnt):
+        for j in range(split_cnt):
+            pices.append(Image.fromarray(img[init_w *i:init_w*(i+1),init_h *j:init_h*(j+1)]))
+
+    return pices
+
+
 # caculate Datasets's RGB std & mean  for nomalization 
 def get_imgset_mean_std(train_ds):
     """_summary_
@@ -50,6 +63,7 @@ class TireDataset(Dataset):
             custom_transforms (torchvision.transformers, optional): custom transforms method 
 
         """
+        self.split_cnt = 3
         if custom_transforms:
             self.transforms = custom_transforms
 
@@ -87,6 +101,7 @@ class TireDataset(Dataset):
         return len(self.img_paths)
 
 
+
     def __getitem__(self, idx):
         """_summary_
 
@@ -94,11 +109,15 @@ class TireDataset(Dataset):
         Returns:
             dict{'image': tensor, 'label': int }
         """
+
+        sub_idx = idx %(self.split_cnt*self.split_cnt)
+        idx = idx//self.split_cnt
         label = self.label[idx]
         image = Image.open(self.img_paths[idx])
+        image = np.array(image)
+        images = split_img(image)
         # image = np.array(image)
-        sample = {"image":image,'label':label}
-
+        sample = {"image":images[sub_idx],'label':label}
         sample['image'] = self.transforms(sample['image'])
 
         return sample
@@ -112,7 +131,7 @@ if __name__=='__main__':
     #     print(img['image'].shape)
     #     print(img['label'].shape)
 
-    data_transformer = transforms.Compose([transforms.ToTensor()])
+    # data_transformer = transforms.Compose([transforms.ToTensor()])
     
-    train_data = TireDataset('F:\\data\\Tire_data\\3차','./Dataset/tire_result.xlsx') # Data path
+    train_data = TireDataset('F:\\data\Tire_data\\tire_data','./Dataset/tire_result.xlsx') # Data path
     get_imgset_mean_std(train_data)
