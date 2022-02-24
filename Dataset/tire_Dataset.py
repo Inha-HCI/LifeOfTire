@@ -134,4 +134,4 @@ if __name__=='__main__':
     # data_transformer = transforms.Compose([transforms.ToTensor()])
     
     train_data = TireDataset('F:\\data\Tire_data\\tire_data','./Dataset/tire_result.xlsx') # Data path
-    get_imgset_mean_std(train_data)
+    # get_imgset_mean_std(train_data)
