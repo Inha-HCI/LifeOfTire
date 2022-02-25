@@ -70,11 +70,11 @@ class TireDataset(Dataset):
 
         else:
             #org:3024 x 4032 default transforms
-            self.transforms = transforms.Compose([transforms.Resize((252,336)),
-                                        transforms.ToTensor()])
             # self.transforms = transforms.Compose([transforms.Resize((252,336)),
-            #                             transforms.ToTensor(),
-            #                             transforms.Normalize([meanR, meanG, meanB], [stdR, stdG, stdB])]
+            #                             transforms.ToTensor()])
+            self.transforms = transforms.Compose([transforms.Resize((252,336)),
+                                        transforms.ToTensor(),
+                                        transforms.Normalize([0.40418813, 0.39849842, 0.39194846], [0.13162161, 0.13320315, 0.13457426])])
 
         # label = torch.FloatTensor(label)
         self.img_paths = [] 
@@ -113,6 +113,8 @@ class TireDataset(Dataset):
         sub_idx = idx %(self.split_cnt*self.split_cnt)
         idx = idx//self.split_cnt
         label = self.label[idx]
+        if label != 0:
+            label = label -1 
         image = Image.open(self.img_paths[idx])
         image = np.array(image)
         images = split_img(image)
@@ -133,5 +135,5 @@ if __name__=='__main__':
 
     # data_transformer = transforms.Compose([transforms.ToTensor()])
     
-    train_data = TireDataset('F:\\data\Tire_data\\tire_data','./Dataset/tire_result.xlsx') # Data path
+    train_data = TireDataset('E:\\data\Tire_data\\tire_data','./Dataset/tire_result.xlsx') # Data path
     # get_imgset_mean_std(train_data)
