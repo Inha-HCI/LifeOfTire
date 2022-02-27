@@ -16,8 +16,15 @@ class MenuActivity : AppCompatActivity() {
         Log.d("SDK Version", Build.VERSION.SDK_INT.toString())
 
         val build_button = findViewById<Button>(R.id.build)
+        val pred_button = findViewById<Button>(R.id.pred)
+
         build_button.setOnClickListener {
             val intent = Intent(this, InfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        pred_button.setOnClickListener {
+            val intent = Intent(this, PredictSelectActivity::class.java)
             startActivity(intent)
         }
     }
