@@ -62,7 +62,7 @@ class PredictSelectActivity : AppCompatActivity() {
         val source = ImageDecoder.createSource(contentResolver, uri!!)
         val bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(uri))
 //        val bitmap = ImageDecoder.decodeBitmap(source)
-        val module = LiteModuleLoader.load(assetFilePath(this, "model.ptl"))
+        val module = LiteModuleLoader.load(assetFilePath(this, "model_custom.ptl"))
 
     binding.activityPredictSelectIvImage.setImageBitmap(bitmap)
     val inputTensor = TensorImageUtils.bitmapToFloat32Tensor(
