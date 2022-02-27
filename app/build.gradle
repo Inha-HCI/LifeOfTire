@@ -29,6 +29,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -42,6 +46,11 @@ dependencies {
     implementation files('libs\\commons-net-examples-3.8.0.jar')
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.github.gayanvoice:android-animations-kotlin:1.0.1'      // Button Animation
+    implementation 'org.pytorch:pytorch_android_lite:1.10.0'     // Pytorch Android API
+    implementation 'org.pytorch:pytorch_android_torchvision:1.9.0'
+    implementation 'com.google.android.datatransport:transport-runtime:3.0.1'
+// android.media.Image -> android.graphics.Bitmap으로 바꿔주는 기능
 
     def camerax_version = "1.0.1"
 // CameraX core library using camera2 implementation

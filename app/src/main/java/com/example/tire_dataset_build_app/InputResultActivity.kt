@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
 import java.io.File
 import com.example.tire_dataset_build_app.ConnectFTP
 import org.apache.commons.net.ftp.FTP
