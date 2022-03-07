@@ -59,11 +59,14 @@
   [버튼 이벤트 처리](https://yanghojun.github.io/%EB%82%B4%EA%B0%80%20%EB%B3%B4%EB%A0%A4%EA%B3%A0%20%EB%A7%8C%EB%93%A0%20%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C%20%EA%B8%B0%EC%B4%88%20%EC%B4%9D%EC%A0%95%EB%A6%AC/)
   - [x] 뷰 바인딩, 리사이클러 뷰, 레이아웃 개념, 뷰 페이저, 프래그먼트 공부
   - [x] 코틀린, 자바 문법 비교 및 한번에 복습 및 객체지향 사고 향상, 함수형 프로그래밍 사고 향상
-    - [x] 인터페이스, 추상메소드, SAM, 확장함수, 람다식, 람다식 축약
+    - [x] 인터페이스, 추상메소드, SAM, 확장함수, 람다식, 람다식 축약  
   [코틀린 기초](https://yanghojun.github.io/Kotlin%20%EA%B8%B0%EC%B4%88/)  
   [자바 기초](https://yanghojun.github.io/categories/Java)  
-  - [ ] 인공지능 Prediction UI 구현
-- [ ] 타이어 어플리케이션 인공지능 기능 첨부
+  - [x] 인공지능 Prediction UI 구현
+    - [x] Fragment 접목
+    - [x] ViewPager2 접목
+    - [x] Custom Gallery 활용을 위해 오픈소스 코드 해석 및 적용
+  - [ ] GUI 다듬기
 
 ## 이문형
 - [ ] Write something..
