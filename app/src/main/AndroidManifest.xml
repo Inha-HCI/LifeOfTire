@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
     package="com.example.tire_dataset_build_app">
+
+    <!-- Enable instant app support -->
+    <dist:module dist:instant="true" />
 
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -14,6 +18,7 @@
     <uses-feature android:name="android.hardware.camera.any" />
 
     <application
+        android:name=".PredictCameraMainApplication"
         android:allowBackup="true"
         android:icon="@drawable/tire_app_icon"
         android:label="@string/app_name"
@@ -22,6 +27,59 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tire_dataset_build_app"
         android:usesCleartextTraffic="true">
+        <!-- android:name이 없으면 기본 Activity를 인스턴스화함. 저 PredictCameraMainApplication은 cameraXbasic 구현을 위해 추가함 -->
+
+        <activity
+            android:name=".PredictCameraMainActivity"
+            android:clearTaskOnLaunch="true"
+            android:screenOrientation="fullUser"
+            android:rotationAnimation="seamless"
+            android:resizeableActivity="true"
+            android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
+            tools:targetApi="O"
+            >
+            <!-- Main app intent filter -->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--            해당 activity가 Main으로 작동하는것은 원치 않으므로 주석처리하였음 -->
+
+            <!-- Register as a system camera app -->
+            <intent-filter>
+                <action android:name="android.media.action.IMAGE_CAPTURE" />
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA"/>
+                <action android:name="android.media.action.VIDEO_CAMERA" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+            <!-- App links for http/s -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="example.android.com" />
+                <data android:pathPattern="/camerax" />
+            </intent-filter>
+
+            <!-- Declare notch support -->
+            <meta-data android:name="android.notch_support" android:value="true"/>
+
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.tire_dataset_build_app.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+
         <activity
             android:name=".PredictSelectActivity"
             android:exported="false" />
@@ -35,7 +93,6 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,16 +106,6 @@
             android:exported="true"
             android:screenOrientation="portrait" />
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.tire_dataset_build_app.FileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
-        </provider>
-
         <activity
             android:name=".InfoActivity"
             android:exported="true"
@@ -68,6 +115,7 @@
             android:name=".MenuActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
