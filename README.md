@@ -96,4 +96,4 @@
 - V 2.0 (2022-03-09)
   - [apk 파일](/app/build/outputs/apk/debug/app-debug.apk)
   - 데모영상
-    - <img width="60%" src="/videos/만능크리너.gif">
+  - <img width="60%" src="/videos/Demo.gif">
