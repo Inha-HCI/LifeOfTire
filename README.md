@@ -53,7 +53,7 @@
   [복습자료](https://yanghojun.github.io/Kotlin%20%EA%B8%B0%EC%B4%88/)
 - [x] 안드로이드 인공지능 모델 튜토리얼 진행  
   [안드로이드 Deeplearning 기초 스크립트 작성](/pytorch2android.ipynb)
-- [ ] 타이어 어플리케이션 코드 리팩토링
+- [x] 타이어 어플리케이션 코드 리팩토링
   - [x] 카메라 - 갤러리 연동 파트 다시 공부 및 개발
   - [x] EditText의 로그인 기능 및 키보드 이벤트 공부  
   [버튼 이벤트 처리](https://yanghojun.github.io/%EB%82%B4%EA%B0%80%20%EB%B3%B4%EB%A0%A4%EA%B3%A0%20%EB%A7%8C%EB%93%A0%20%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C%20%EA%B8%B0%EC%B4%88%20%EC%B4%9D%EC%A0%95%EB%A6%AC/)
@@ -97,4 +97,6 @@
   - [apk 파일](/app/build/outputs/apk/debug/app-debug.apk)
   - 데모영상
 
-<img width="60%" src="/videos/Demo.gif">
+<video preload="none" autoplay loop muted playsinline width="100%" height="100%">
+    <source src="/videos/Demo.mp4" type="video/mp4">
+</video>
