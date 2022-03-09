@@ -332,7 +332,7 @@ class CameraFragment : Fragment() {
 
             // Attach the viewfinder's surface provider to preview use case
             preview?.setSurfaceProvider(fragmentCameraBinding.viewFinder.surfaceProvider)
-            observeCameraState(camera?.cameraInfo!!)
+//            observeCameraState(camera?.cameraInfo!!)      // 카메라 state 수시로 toast message 띄우는건데 너무 많이떠서 일단 주석처리
         } catch (exc: Exception) {
             Log.e(TAG, "Use case binding failed", exc)
         }

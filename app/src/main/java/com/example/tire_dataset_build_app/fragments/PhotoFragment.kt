@@ -16,7 +16,9 @@
 
 package com.android.example.cameraxbasic.fragments
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,14 +32,18 @@ import java.io.File
 /** Fragment used for each individual page showing a photo inside of [GalleryFragment] */
 class PhotoFragment internal constructor() : Fragment() {
 
+    public var depth = "아직 진행하지 않았습니다."
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?) = ImageView(context)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {       // onCreateView의 ImageView가 여기의 view 변수로 전달됨
         super.onViewCreated(view, savedInstanceState)
         val args = arguments ?: return
-        val resource = args.getString(FILE_NAME_KEY)?.let { File(it) } ?: R.drawable.ic_photo
+        val resource = args.getString(FILE_NAME_KEY)?.let { File(it) } ?: R.drawable.ic_photo       // GalleryFragment의 섬네일 변경해주는것
+                                                                                                    // 항상 변경해주면, 가장 마지막에 찍은 사진의 섬네일로 변경되도록함
         Glide.with(view).load(resource).into(view as ImageView)
+        Log.d(TAG, "onViewCreated: PhotoFragment created!!")
     }
 
     companion object {

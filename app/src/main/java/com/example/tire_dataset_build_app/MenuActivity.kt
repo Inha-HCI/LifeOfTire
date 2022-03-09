@@ -7,11 +7,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import com.example.tire_dataset_build_app.databinding.ActivityMenuBinding
+import render.animations.*
 
 class MenuActivity : AppCompatActivity() {
+    val render = Render(this)
+    private lateinit var binding:ActivityMenuBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_menu)
+        binding = ActivityMenuBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+//        setContentView(R.layout.activity_menu)
 
         Log.d("SDK Version", Build.VERSION.SDK_INT.toString())
 
@@ -24,8 +31,24 @@ class MenuActivity : AppCompatActivity() {
         }
 
         pred_button.setOnClickListener {
-            val intent = Intent(this, PredictSelectActivity::class.java)
+//            val intent = Intent(this, PredictSelectActivity::class.java)
+            val intent = Intent(this, PredictCameraMainActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        render.setAnimation(Flip().InX(binding.imageView))
+        render.start()
+
+        render.setAnimation(Bounce().InDown(binding.build))
+        render.start()
+
+        render.setAnimation(Bounce().InDown(binding.pred))
+        render.start()
+
+        render.setAnimation(Bounce().InDown(binding.analyze))
+        render.start()
     }
 }

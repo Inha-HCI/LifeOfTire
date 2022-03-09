@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LifeOfTire</string>
+    <string name="app_name">tire_dataset_build_app</string>
     <string name="capture_button_alt">Capture</string>
     <string name="switch_camera_button_alt">Switch camera</string>
     <string name="gallery_button_alt">Gallery</string>

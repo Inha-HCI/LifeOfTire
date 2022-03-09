@@ -66,7 +66,7 @@
     - [x] Fragment 접목
     - [x] ViewPager2 접목
     - [x] Custom Gallery 활용을 위해 오픈소스 코드 해석 및 적용
-  - [ ] GUI 다듬기
+  - [x] GUI 다듬기
 
 ## 이문형
 - [ ] Write something..
@@ -92,3 +92,8 @@
 # 실행파일
 - V 1.0 (2022-02-17)
   - [apk 파일](/app/release/app-release.apk)
+
+- V 2.0 (2022-03-09)
+  - [apk 파일](/app/build/outputs/apk/debug/app-debug.apk)
+  - 데모영상
+    - <img width="60%" src="/videos/만능크리너.gif">

@@ -71,14 +71,15 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.tire_dataset_build_app.FileProvider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
+<!--android:authorities="com.example.tire_dataset_build_app.fragments.FileProvider"-->
+<!--        이 코드가 AI predict할 때 오류나서 위와 같은 authorities로 변경-->
 
         <activity
             android:name=".PredictSelectActivity"

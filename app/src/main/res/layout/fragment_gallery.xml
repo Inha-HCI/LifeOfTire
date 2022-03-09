@@ -54,20 +54,22 @@
             android:layout_height="@dimen/round_button_small"
             android:background="@android:color/transparent"
             android:contentDescription="@string/share_button_alt"
+            android:layout_marginBottom="10dp"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/delete_button"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_gallery_predict"
             app:srcCompat="@drawable/ic_share" />
 
         <ImageButton
             android:id="@+id/delete_button"
-            android:contentDescription="@string/delete_button_alt"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/share_button"
-            app:layout_constraintEnd_toStartOf="@id/fragment_gallery_predict"
             android:layout_width="@dimen/round_button_small"
             android:layout_height="@dimen/round_button_small"
+            android:contentDescription="@string/delete_button_alt"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/fragment_gallery_predict"
+            app:layout_constraintEnd_toEndOf="parent"
             android:scaleType="fitCenter"
             android:background="@android:color/transparent"
             app:srcCompat="@drawable/ic_delete" />
@@ -77,15 +79,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="예측 진행"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:padding="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/delete_button" />
+            app:layout_constraintEnd_toStartOf="@+id/delete_button"
+            app:layout_constraintStart_toEndOf="@+id/share_button" />
 
         <TextView
             android:id="@+id/fragment_gallery_tv_depth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Depth: 아직 진행하지 않았습니다."
+            android:text=""
             android:textColor="@color/white"
             android:textSize="15sp"
             android:layout_marginBottom="50dp"

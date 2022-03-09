@@ -17,6 +17,7 @@ package com.example.tire_dataset_build_app.fragments
  */
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,6 +34,7 @@ import android.net.Uri
 import android.os.Build
 import android.util.Log
 import android.webkit.MimeTypeMap
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import com.example.tire_dataset_build_app.BuildConfig
@@ -50,7 +52,7 @@ import org.pytorch.LiteModuleLoader
 import org.pytorch.torchvision.TensorImageUtils
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.Locale
+import java.util.*
 import kotlin.concurrent.thread
 
 val EXTENSION_WHITELIST = arrayOf("JPG")
@@ -70,10 +72,15 @@ class GalleryFragment internal constructor() : Fragment() {
     private val args: GalleryFragmentArgs by navArgs()
 
     private lateinit var mediaList: MutableList<File>
+    private var depthList = mutableListOf<String>()
+
 
     /** Adapter class used to present a fragment containing one photo or video as a page */
     inner class MediaPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getCount(): Int = mediaList.size
+
+        // 원래 getItem 통해서 이벤트 발생시마다 TextView 변경시켜주려 했으나 viewpager1 이라서 getItem을 그런식으로 사용할 수 없음..
+        // 프래그먼트 object안에 depth 값을 넣어두고 직접 참고하는것으로 아이디어 변경
         override fun getItem(position: Int): Fragment = PhotoFragment.create(mediaList[position])
         override fun getItemPosition(obj: Any): Int = POSITION_NONE
     }
@@ -92,6 +99,14 @@ class GalleryFragment internal constructor() : Fragment() {
         mediaList = rootDirectory.listFiles { file ->
             EXTENSION_WHITELIST.contains(file.extension.toUpperCase(Locale.ROOT))
         }?.sortedDescending()?.toMutableList() ?: mutableListOf()
+
+        Log.d(TAG, "onCreate: Called..")
+
+        for (i in 0 until mediaList.size){
+            depthList.add("아직 진행하지 않았습니다.")
+        }
+
+        Log.d(TAG, "onCreate: check depthList: " + depthList.toString())
     }
 
     override fun onCreateView(
@@ -145,7 +160,7 @@ class GalleryFragment internal constructor() : Fragment() {
                             .getMimeTypeFromExtension(mediaFile.extension)
                     // Get URI from our FileProvider implementation
                     val uri = FileProvider.getUriForFile(
-                        view.context, BuildConfig.APPLICATION_ID + ".provider", mediaFile)
+                        Objects.requireNonNull(requireContext()),BuildConfig.APPLICATION_ID + ".provider", mediaFile)
                     // Set the appropriate intent extra, type, action and flags
                     putExtra(Intent.EXTRA_STREAM, uri)
                     type = mediaType
@@ -178,6 +193,7 @@ class GalleryFragment internal constructor() : Fragment() {
 
                             // Notify our view pager
                             mediaList.removeAt(fragmentGalleryBinding.photoViewPager.currentItem)
+                            depthList.removeAt(fragmentGalleryBinding.photoViewPager.currentItem)
                             fragmentGalleryBinding.photoViewPager.adapter?.notifyDataSetChanged()
 
                             // If all photos have been deleted, return to camera
@@ -237,10 +253,16 @@ class GalleryFragment internal constructor() : Fragment() {
 
                     Log.d(ContentValues.TAG, "Width: ${bitmap.height}, Height: ${bitmap.width}")    // 왜인지 모르겠으나 width, height가 거꾸로 출력되고 있어서..
                     Log.d(ContentValues.TAG, "Depth result: ${depth} ")
-
+                    depthList[fragmentGalleryBinding.photoViewPager.currentItem] = depth!!
+//                    Log.d("After predict", depthList.toString())
+//                    Log.d("After predict", "index: " + fragmentGalleryBinding.photoViewPager.currentItem.toString())
                     requireActivity().runOnUiThread {
                         showProgress(false)
-                        fragmentGalleryBinding.fragmentGalleryTvDepth.setText("Depth: " + depth)
+
+                        Toast.makeText(requireContext(), "Depth: " + depth + "\n"
+                                + "Width: " + bitmap.height.toString() + " Height: " + bitmap.width.toString()
+                            , Toast.LENGTH_LONG).show()
+//                        fragmentGalleryBinding.fragmentGalleryTvDepth.setText("Depth: " + depth)
                     }
                 }
             }
