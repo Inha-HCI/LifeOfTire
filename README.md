@@ -97,6 +97,4 @@
   - [apk 파일](/app/build/outputs/apk/debug/app-debug.apk)
   - 데모영상
 
-<video preload="none" autoplay loop muted playsinline width="100%" height="100%">
-    <source src="/videos/Demo.mp4" type="video/mp4">
-</video>
+<img width="60%" src="/videos/Demo.gif">
