@@ -48,7 +48,7 @@
   - [ ] 가이드라인 추가
 
 ## 이문형
-- [ ] DataSet (Nas에 Tire_data.zip 올려둠 )    - Dataset 링크 여기 올려주라 (by 호준)
+- [] DataSet (Nas에 Tire_data.zip 올려둠 )  
    * [Trie Dataset]
    * [2021091610417708]
      * [img1.jpg]
@@ -58,7 +58,11 @@
      * [file12.ext]
 - [x] Dataset code **tire_Dataset.py** update 주석참고 (22_02_20)
 - [x] 원본 이미지 해상도 __3024 x 4032__ 리사이징시 타이어 마모선이 보이지않는 이슈 및 데이터 사이즈가 너무 커짐 ->
-- [ ] RGB 형태가 아닌, gray_scale 로 변경 필요성 및 이미지 분할 필요 -> 해당작업은 0222 ATG 츨장이후 추가적인 방법 생각해봄 
+- [x] 이미지 9등분으로 분할 기능분할
+- [ ] 기존 9분할 처리에서 고해상도 단일 이미지 입력으로 데이터 로더 변경 
+- [ ] 석채한테 데이터 받아서 pytorch pretrain model 로 학습(현재 Efficientnet)
+- [ ] 모델 결과 확인 후 모델 추가적으로 (VIT,swin) 2가지 더 실험
+
    
 
 ## 정회준
