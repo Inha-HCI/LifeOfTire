@@ -69,7 +69,21 @@
 - [ ] Write something..
 
 ## 이석채
-- [ ] Write something..
+- [ ] 타이어 세그멘테이션 데이터셋(Nas에 타이어세그멘테이션.zip)
+- [사용 모델](https://github.com/VainF/DeepLabV3Plus-Pytorch) 
+- [best-pth-file](https://drive.google.com/file/d/1LjMyU0OVhk3thPvf07_BvtLpsQPja9M8/view?usp=sharing)
+- [ ] 타이어 테스트 종류 5가지
+- ![타이어1 ](./images/KakaoTalk_20220523_153854120_08.jpg)
+- ![타이어1 세그](./images/KakaoTalk_20220523_153854120_08.png)
+- ![타이어2 ](./images/KakaoTalk_20220523_153854120_13.jpg)
+- ![타이어2 세그](./images/KakaoTalk_20220523_153854120_13.jpg)
+- ![타이어3 ](./images/KakaoTalk_20220523_161033910_03.jpg)
+- ![타이어3 세그](./images/KakaoTalk_20220523_161033910_03.png)
+- ![타이어4 ](./images/KakaoTalk_20220523_161033910_06.jpg)
+- ![타이어4 세그](./images/KakaoTalk_20220523_161033910_06.png)
+- ![타이어5 ](./images/KakaoTalk_20220523_161033910_12.jpg)
+- ![타이어5 세그](./images/KakaoTalk_20220523_161033910_12.png)
+
 
 # 실행파일
 - V 1.0 (2022-02-17)
