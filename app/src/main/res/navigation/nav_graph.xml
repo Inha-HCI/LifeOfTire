@@ -41,6 +41,11 @@
         <action
             android:id="@+id/action_camera_to_gallery"
             app:destination="@id/gallery_fragment" />
+        <argument
+            android:name="argsString"
+            app:argType="string"
+            android:defaultValue="camera jun"
+            />
 
         <action
             android:id="@+id/action_camera_to_permissions"
@@ -57,6 +62,11 @@
         <argument
             android:name="root_directory"
             app:argType="string" />
+        <argument
+            android:name="argsString"
+            app:argType="string"
+            android:defaultValue="gallery jun"
+            />
     </fragment>
 
 </navigation>
