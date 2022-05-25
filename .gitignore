@@ -13,3 +13,22 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# DeepLabV3Plus-Pytorch folder
+__pycache__
+DeepLabV3Plus-Pytorch/**/*.jpg
+DeepLabV3Plus-Pytorch/**/*.png
+DeepLabV3Plus-Pytorch/**/*.pt
+DeepLabV3Plus-Pytorch/**/*.ptl
+DeepLabV3Plus-Pytorch/**/*.pth
+DeepLabV3Plus-Pytorch/datasets/data
+DeepLabV3Plus-Pytorch/VOCdevkit
+DeepLabV3Plus-Pytorch/checkpoints
+DeepLabV3Plus-Pytorch/.vscode
+DeepLabV3Plus-Pytorch/*.pyc
+DeepLabV3Plus-Pytorch/.idea/
+DeepLabV3Plus-Pytorch/__pycache__
+DeepLabV3Plus-Pytorch/results
+DeepLabV3Plus-Pytorch/checkpoints_bak
+DeepLabV3Plus-Pytorch/cityscapes
+DeepLabV3Plus-Pytorch/test_results
