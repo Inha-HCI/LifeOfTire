@@ -59,9 +59,11 @@
 - [x] Dataset code **tire_Dataset.py** update 주석참고 (22_02_20)
 - [x] 원본 이미지 해상도 __3024 x 4032__ 리사이징시 타이어 마모선이 보이지않는 이슈 및 데이터 사이즈가 너무 커짐 ->
 - [x] 이미지 9등분으로 분할 기능분할
-- [ ] 기존 9분할 처리에서 고해상도 단일 이미지 입력으로 데이터 로더 변경 
-- [ ] 석채한테 데이터 받아서 pytorch pretrain model 로 학습(현재 Efficientnet)
-- [ ] 모델 결과 확인 후 모델 추가적으로 (VIT,swin) 2가지 더 실험
+- [x] 기존 9분할 처리에서 고해상도 단일 이미지 입력으로 데이터 로더 변경 
+- [x] 석채한테 데이터 받아서 pytorch pretrain model 로 학습(현재 Efficientnet)
+- [] 모델 결과 확인 후 모델 추가적으로 (VIT,swin) 2가지 더 실험
+- [사용모델] EfficientNet, (https://github.com/Munggoose/Tire_depth_predict.git)
+- [beast-pth-file](https://drive.google.com/file/d/1kLAFHgQn_VoaVcyRAcMw1Y3LAgAHPlvs/view?usp=sharing)
 
    
 
