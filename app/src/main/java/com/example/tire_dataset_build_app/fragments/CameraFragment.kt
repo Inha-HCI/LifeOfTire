@@ -45,6 +45,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.window.WindowManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.tire_dataset_build_app.KEY_EVENT_ACTION
 import com.example.tire_dataset_build_app.KEY_EVENT_EXTRA
 import com.example.tire_dataset_build_app.PredictCameraMainActivity
@@ -300,7 +301,7 @@ class CameraFragment : Fragment() {
                 .setTargetRotation(rotation)
 
                 // 해상도 조절용
-                .setTargetResolution(Size(1080, 1920))
+                .setTargetResolution(Size(480, 640))
                 .build()
 
         // ImageAnalysis
@@ -567,10 +568,17 @@ class CameraFragment : Fragment() {
         cameraUiContainerBinding?.photoViewButton?.setOnClickListener {
             // Only navigate when the gallery has photos
             if (true == outputDirectory.listFiles()?.isNotEmpty()) {
-                Navigation.findNavController(
-                        requireActivity(), R.id.fragment_container
-                ).navigate(CameraFragmentDirections
-                        .actionCameraToGallery(outputDirectory.absolutePath))
+//                Navigation.findNavController(
+//                        requireActivity(), R.id.fragment_container
+//                ).navigate(CameraFragmentDirections
+//                        .actionCameraToGallery(outputDirectory.absolutePath))
+
+                    Navigation.findNavController(
+                            requireActivity(), R.id.fragment_container
+                    ).navigate(CameraFragmentDirections
+                        .actionCameraToGallery(outputDirectory.absolutePath))       // nav_graph.xml에 root_directory라는 id로 args가 적혀있음
+//                                                                                        // outputDirectory.absolutePath 정보가 gallery fragment로 넘어갈 때
+//                                                                                        // 전달됨
             }
         }
     }

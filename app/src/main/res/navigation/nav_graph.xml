@@ -17,6 +17,7 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/permissions_fragment">
 
@@ -54,9 +55,28 @@
         android:id="@+id/gallery_fragment"
         android:name="com.example.tire_dataset_build_app.fragments.GalleryFragment"
         android:label="GalleryFragment" >
+
         <argument
             android:name="root_directory"
             app:argType="string" />
+
+        <action
+            android:id="@+id/action_gallery_to_segmentation"
+            app:destination="@id/segmentation_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/segmentation_fragment"
+        android:name="com.example.tire_dataset_build_app.fragments.SegmentationFragment"
+        android:label="SegmentationFragment" >
+
+        <argument
+            android:name="image_uri"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_segmentation_fragment_to_camera_fragment"
+            app:destination="@id/camera_fragment" />
+
     </fragment>
 
 </navigation>

@@ -16,44 +16,41 @@ package com.example.tire_dataset_build_app.fragments
  * limitations under the License.
  */
 
-import android.content.ContentValues
+import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import java.io.File
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
+import android.os.Environment
+import android.os.FileUtils
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.webkit.MimeTypeMap
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.FileProvider
-import com.example.tire_dataset_build_app.BuildConfig
-import com.example.tire_dataset_build_app.utils.padWithDisplayCutout
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.android.example.cameraxbasic.fragments.PhotoFragment
-import com.example.tire_dataset_build_app.utils.showImmersive
+import com.example.tire_dataset_build_app.BuildConfig
 import com.example.tire_dataset_build_app.R
 import com.example.tire_dataset_build_app.databinding.FragmentGalleryBinding
-import org.pytorch.IValue
-import org.pytorch.LiteModuleLoader
-import org.pytorch.torchvision.TensorImageUtils
+import com.example.tire_dataset_build_app.utils.padWithDisplayCutout
+import com.example.tire_dataset_build_app.utils.showImmersive
+import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 import kotlin.concurrent.thread
+
 
 val EXTENSION_WHITELIST = arrayOf("JPG")
 
@@ -67,7 +64,7 @@ class GalleryFragment internal constructor() : Fragment() {
 
     /** For predict result*/
     private var depth: String? = null
-
+    private var CLASSNUM = 21
     /** AndroidX navigation arguments */
     private val args: GalleryFragmentArgs by navArgs()
 
@@ -93,6 +90,7 @@ class GalleryFragment internal constructor() : Fragment() {
 
         // Get root directory of media from navigation arguments
         val rootDirectory = File(args.rootDirectory)
+        Log.d(TAG, "rootDitectory: $rootDirectory")
 
         // Walk through all files in the root directory
         // We reverse the order of the list to present the last photos first
@@ -208,63 +206,139 @@ class GalleryFragment internal constructor() : Fragment() {
             }
         }
 
-        fragmentGalleryBinding.fragmentGalleryPredict.setOnClickListener {
+        fragmentGalleryBinding.fragmentGalleryPredict.setOnClickListener{
+
             mediaList.getOrNull(fragmentGalleryBinding.photoViewPager.currentItem)?.let { mediaFile ->
 
-                showProgress(true)
-                thread(start = true){
-                    val uri = Uri.fromFile(mediaFile)
-
-                    // uri를 통해 Inference가 가능한 Bitmap 생성
-                    // 더 쉬운 다른 Bitmap 생성 코드 사용해봤는데 Inference에서 에러났었음
-                    val bitmap = BitmapFactory.decodeStream(requireActivity().contentResolver.openInputStream(uri))
-                    val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "model_custom.ptl"))
-
-                    val inputTensor = TensorImageUtils.bitmapToFloat32Tensor(
-                        bitmap,
-                        TensorImageUtils.TORCHVISION_NORM_MEAN_RGB,
-                        TensorImageUtils.TORCHVISION_NORM_STD_RGB
-                    )
-
-                    val outputTensor = module.forward(IValue.from(inputTensor)).toTensor()
-                    val scores =
-                        outputTensor.dataAsFloatArray // pretrained된 imagenet으로 진행했다면 (1, 1000)으로 output 나옴
-
-
-                    var maxScore = -Float.MAX_VALUE
-                    var maxScoreIdx = -1
-                    Log.d(ContentValues.TAG, "hello~ : ${scores.indices}")
-                    for (i in scores.indices) {       // Inference 값 중 가장 큰 값의 index 구함
-                        if (scores[i] > maxScore) {
-                            maxScore = scores[i]
-                            maxScoreIdx = i
-                        }
-                    }
-
-                    when (maxScoreIdx) {
-                        0 -> depth = "0mm"
-                        1 -> depth = "1mm"
-                        2 -> depth = "2mm"
-                        3 -> depth = "3mm"
-                        4 -> depth = "4mm"
-                        5 -> depth = "5mm"
-                        6 -> depth = "6mm"
-                    }
-
-                    Log.d(ContentValues.TAG, "Width: ${bitmap.height}, Height: ${bitmap.width}")    // 왜인지 모르겠으나 width, height가 거꾸로 출력되고 있어서..
-                    Log.d(ContentValues.TAG, "Depth result: ${depth} ")
-                    depthList[fragmentGalleryBinding.photoViewPager.currentItem] = depth!!
-//                    Log.d("After predict", depthList.toString())
-//                    Log.d("After predict", "index: " + fragmentGalleryBinding.photoViewPager.currentItem.toString())
-                    requireActivity().runOnUiThread {
-                        showProgress(false)
-
-                        Toast.makeText(requireContext(), "Depth: " + depth + "\n"
-                                + "Width: " + bitmap.height.toString() + " Height: " + bitmap.width.toString()
-                            , Toast.LENGTH_LONG).show()
-//                        fragmentGalleryBinding.fragmentGalleryTvDepth.setText("Depth: " + depth)
-                    }
+                // Checks if a volume containing external storage is available
+                // for read and write.
+                fun isExternalStorageWritable(): Boolean {
+                    return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
                 }
+
+                fun getAppSpecificAlbumStorageDir(context: Context, albumName: String): File? {
+                    // Get the pictures directory that's inside the app-specific directory on
+                    // external storage.
+                    val file = File(context.getExternalFilesDir(
+                        null), albumName + "/2022-03-09-12-57-52-504.jpg")
+                    if (!file?.mkdirs()) {
+                        Log.e(TAG, "Directory not created")
+                    }
+                    return file
+                }
+                val uri = Uri.fromFile(mediaFile).path!!
+
+                showProgress(true)
+//                    .actionCameraToGallery(outputDirectory.absolutePath))       // nav_graph.xml에 root_directory라는 id로 args가 적혀있음
+                Navigation.findNavController(
+                    requireActivity(), R.id.fragment_container
+                ).navigate(GalleryFragmentDirections.actionGalleryToSegmentation(uri))
+
+//                thread(start = true){
+//                    Navigation.findNavController(
+//                        requireActivity(), R.id.fragment_container
+//                    ).navigate(GalleryFragmentDirections.actionGalleryToSegmentation(uri))
+//                    val uri = Uri.fromFile(mediaFile)
+//
+//                    // uri를 통해 Inference가 가능한 Bitmap 생성
+//                    // 더 쉬운 다른 Bitmap 생성 코드 사용해봤는데 Inference에서 에러났었음
+//                    val bitmap = BitmapFactory.decodeStream(requireActivity().contentResolver.openInputStream(uri))
+//                    // val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "model_custom.ptl"))
+//                    val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "deeplab_model.ptl"))
+//
+//                    val inputTensor = TensorImageUtils.bitmapToFloat32Tensor(
+//                        bitmap,
+//                        TensorImageUtils.TORCHVISION_NORM_MEAN_RGB,
+//                        TensorImageUtils.TORCHVISION_NORM_STD_RGB
+//                    )
+//
+//                    val outputTensor = module.forward(IValue.from(inputTensor)).toTensor()
+//
+//                    val scores = outputTensor.dataAsFloatArray
+//                    val width: Int = bitmap.width
+//                    val height: Int = bitmap.height
+//                    val intValues = IntArray(width * height)
+//                    for (j in 0 until height) {
+//                        for (k in 0 until width) {
+//                            var maxi = 0
+//                            var maxj = 0
+//                            var maxk = 0
+//                            var maxnum = -Double.MAX_VALUE
+//                            for (i in 0 until CLASSNUM) {
+//                                val score = scores[i * (width * height) + j * width + k]
+//                                if (score > maxnum) {
+//                                    maxnum = score.toDouble()
+//                                    maxi = i
+//                                    maxj = j
+//                                    maxk = k
+//                                }
+//                            }
+//                            val BACKGROUND = 0      // 추측
+//                            val TIRE = 1        // 추측
+//                            if (maxi == BACKGROUND) intValues[maxj * width + maxk] =
+//                                -0x10000 else if (maxi == TIRE) intValues[maxj * width + maxk] =
+//                                -0xff0100 else intValues[maxj * width + maxk] = -0x1000000
+//                        }
+//                    }
+//
+//                    val bmpSegmentation = Bitmap.createScaledBitmap(bitmap, width, height, true)
+//                    val outputBitmap = bmpSegmentation.copy(bmpSegmentation.config, true)
+//                    outputBitmap.setPixels(
+//                        intValues,
+//                        0,
+//                        outputBitmap.width,
+//                        0,
+//                        0,
+//                        outputBitmap.width,
+//                        outputBitmap.height
+//                    )
+//                    val transferredBitmap = Bitmap.createScaledBitmap(
+//                        outputBitmap,
+//                        bitmap.getWidth(),
+//                        bitmap.getHeight(),
+//                        true
+//                    )
+
+
+//
+//                    val scores =
+//                        outputTensor.dataAsFloatArray // pretrained된 imagenet으로 진행했다면 (1, 1000)으로 output 나옴
+//
+//
+//                    var maxScore = -Float.MAX_VALUE
+//                    var maxScoreIdx = -1
+//                    Log.d(ContentValues.TAG, "hello~ : ${scores.indices}")
+//                    for (i in scores.indices) {       // Inference 값 중 가장 큰 값의 index 구함
+//                        if (scores[i] > maxScore) {
+//                            maxScore = scores[i]
+//                            maxScoreIdx = i
+//                        }
+//                    }
+//
+//                    when (maxScoreIdx) {
+//                        0 -> depth = "0mm"
+//                        1 -> depth = "1mm"
+//                        2 -> depth = "2mm"
+//                        3 -> depth = "3mm"
+//                        4 -> depth = "4mm"
+//                        5 -> depth = "5mm"
+//                        6 -> depth = "6mm"
+//                    }
+//
+//                    Log.d(ContentValues.TAG, "Width: ${bitmap.height}, Height: ${bitmap.width}")    // 왜인지 모르겠으나 width, height가 거꾸로 출력되고 있어서..
+//                    Log.d(ContentValues.TAG, "Depth result: ${depth} ")
+//                    depthList[fragmentGalleryBinding.photoViewPager.currentItem] = depth!!
+////                    Log.d("After predict", depthList.toString())
+////                    Log.d("After predict", "index: " + fragmentGalleryBinding.photoViewPager.currentItem.toString())
+//                    requireActivity().runOnUiThread {
+//                        showProgress(false)
+////
+//////                        Toast.makeText(requireContext(), "Depth: " + depth + "\n"
+//////                                + "Width: " + bitmap.height.toString() + " Height: " + bitmap.width.toString()
+//////                            , Toast.LENGTH_LONG).show()
+//////                        fragmentGalleryBinding.fragmentGalleryTvDepth.setText("Depth: " + depth)
+//                    }
+//                }
             }
         }
 

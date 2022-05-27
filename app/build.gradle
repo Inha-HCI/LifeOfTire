@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.github.gayanvoice:android-animations-kotlin:1.0.1'      // Button Animation
     implementation 'org.pytorch:pytorch_android_lite:1.10.0'     // Pytorch Android API
     implementation 'org.pytorch:pytorch_android_torchvision:1.9.0'
+//    implementation 'org.pytorch:pytorch_android_torchvision_lite:1.10.0'
     implementation 'com.google.android.datatransport:transport-runtime:3.0.1'
 
 //    implementation 'androidx.navigation:navigation-fragment:2.4.1'        // 아래에서 navigation 관련 라이브러리 종속함
