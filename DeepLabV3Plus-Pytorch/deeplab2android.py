@@ -257,11 +257,10 @@ def main():
     utils.set_bn_momentum(model.backbone, momentum=0.01)
     # model.load_state_dict(torch.load('./best_deeplabv3plus_mobilenet_voc_os16.pth')['model_state'])
 
-    # model.load_state_dict(torch.load('./best_deeplabv3plus_mobilenet_voc_os16.pth')['model_state'])
-    # model.load_state_dict(torch.load('./best_deeplabv3_resnet50_voc_os16.pth')['model_state'])
     model = torch.hub.load('pytorch/vision:v0.10.0', 'deeplabv3_resnet50', pretrained=False)
-    # model.load_state_dict(torch.load('./best_deeplabv3_resnet50_voc_os16.pth')['model_state'])
-    model.load_state_dict(torch.load('./latest_deeplabv3plus_mobilenet_voc_os16.pth')['model_state'])
+    # model.load_state_dict(torch.load('./latest_deeplabv3plus_mobilenet_voc_os16.pth')['model_state'])
+    # model.load_state_dict(torch.load('./deeplab_resnet50_final.pth')['model_state'])
+    model.load_state_dict(torch.load('./chae_model.pth')['model_state'])
     model.eval()
 
     # Deeplabv3 repo에서 3개 ptl 파일 추출하느 코드

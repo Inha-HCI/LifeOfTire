@@ -13,6 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+*.ptl
 
 # DeepLabV3Plus-Pytorch folder
 __pycache__
