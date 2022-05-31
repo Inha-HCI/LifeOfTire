@@ -5,6 +5,7 @@
 - [목차](#목차)
 - [일정](#일정)
 - [진행상황](#진행상황)
+- [Weight File](#weight-file)
   - [양호준](#양호준)
   - [이문형](#이문형)
   - [정회준](#정회준)
@@ -21,6 +22,14 @@
 # 진행상황
 
 본인 이름 아래에 자기 계획 정리해두고 진행사항 **ipynb 파일로 정리**해서 남길 것 (전처리 작업, 혹은 계획사항 내지 진행사항 같은것 모두가 보기 쉽게 하여 협업하기 위함임)
+
+# Weight File
+easy_data: 연구실에서 직접 촬영한 타이어 데이터로 학습한 것
+seg_data: 직접 타이어만 마스킹해서 배경은 검은색으로 설정하고 학습한 것
+
+[Deeplabv3_easy_data](https://drive.google.com/file/d/1jG-ewC-F9zrbyHaiM0j8wPj_q79ARCaZ/view?usp=sharing)
+[android_deeplabv3_easy_data](https://drive.google.com/file/d/1LjWfv3wgRSH1lqIRCayDc1GV7sTtbSpS/view?usp=sharing)
+[android_efficientb7_easy_seg_data](https://drive.google.com/file/d/1HLehAmzaNetsWiXJyOkeor_2Gmn7Zc6Y/view?usp=sharing)
 
 ## 양호준
 - [x] Kotlin 안드로이드 개발을 위한 문법 복습  
@@ -43,8 +52,8 @@
   - [x] GUI 다듬기
 - [ ] 타이어 세그멘테이션 & UI 다듬기
   - [x] 이미지 세그멘테이션 어플 돌리기(Pytorch 버젼 문제로 에러 발생해서 정신 나가는줄)
-  - [ ] 석채 세그멘테이션 데이터 받아서 학습하고 결과 확인
-  - [ ] 이미지 이진화로 타이어 트레드만 추출
+  - [x] 석채 세그멘테이션 데이터 받아서 학습하고 결과 확인
+  - [x] 이미지 이진화로 타이어 트레드만 추출
   - [ ] 가이드라인 추가
 
 ## 이문형
