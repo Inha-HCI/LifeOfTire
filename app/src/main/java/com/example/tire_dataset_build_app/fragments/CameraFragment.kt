@@ -309,7 +309,6 @@ class CameraFragment : Fragment() {
                 // during the lifecycle of this use case
                 // 이미지가 회전되서 찍혔을 경우 EXIF 메타데이터에 회전 정보가 들어가게함
                 .setTargetRotation(rotation)
-
                 // 해상도 조절용
                 .setTargetResolution(Size(480, 640))
                 .build()
@@ -488,7 +487,6 @@ class CameraFragment : Fragment() {
 
             // Get a stable reference of the modifiable image capture use case
             imageCapture?.let { imageCapture ->
-
                 // Create output file to hold the image
                 val photoFile = createFile(outputDirectory, FILENAME, PHOTO_EXTENSION)
 

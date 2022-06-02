@@ -13,14 +13,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.camera.core.impl.utils.Exif
-import androidx.camera.core.impl.utils.Exif.createFromFile
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
-import androidx.core.content.FileProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.example.tire_dataset_build_app.PredictCameraMainActivity
 import com.example.tire_dataset_build_app.R
 import com.example.tire_dataset_build_app.databinding.FragmentSegmentationBinding
@@ -31,7 +26,7 @@ import org.pytorch.torchvision.TensorImageUtils
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.Date.from
+import java.util.*
 import kotlin.concurrent.thread
 
 // TODO: Rename parameter arguments, choose names that match
@@ -89,21 +84,28 @@ class SegmentationFragment : Fragment() {
         fragmentSegmentationBinding.originalImage.setImageURI(uri)
 
         var bitmap = BitmapFactory.decodeStream(requireActivity().contentResolver.openInputStream(uri))
-        bitmap = rotatedBitmap(bitmap, args.imageUri)
+//        Log.d("before bitmap height, width", "onViewCreated: ${bitmap.height}, ${bitmap.width}")
+//        bitmap = rotatedBitmap(bitmap, args.imageUri)
+        Log.d("after bitmap height, width", "onViewCreated: ${bitmap.height}, ${bitmap.width}")
 
-//        fragmentSegmentationBinding.segmentationImage.setImageURI(uri)
 
         // 가중치 파일 Load
         // DeeplabV3
         val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "deeplabv3_scripted_optimized.ptl"))
 
-        val inputTensor = TensorImageUtils.bitmapToFloat32Tensor(
+        val seg_inputTensor = TensorImageUtils.bitmapToFloat32Tensor(
             bitmap,
             TensorImageUtils.TORCHVISION_NORM_MEAN_RGB,
             TensorImageUtils.TORCHVISION_NORM_STD_RGB
         )
 
-        val outTensors = module.forward(IValue.from(inputTensor)).toDictStringKey()
+        val reg_inputTensor = TensorImageUtils.bitmapToFloat32Tensor(
+            bitmap,
+            floatArrayOf(0.0f, 0.0f, 0.0f),
+            floatArrayOf(1.0f, 1.0f, 1.0f)
+        )
+
+        val outTensors = module.forward(IValue.from(seg_inputTensor)).toDictStringKey()
         val outputTensor: Tensor = outTensors.get("out")!!.toTensor()
 
         //        final Tensor outputTensor = outTensors.toTensor();
@@ -122,7 +124,7 @@ class SegmentationFragment : Fragment() {
                     val score =
                         scores[i * (width * height) + j * width + k] // 내 생각에 최종 mask는 채널이 여러개임. 각 채널이 클래스별로 구분되고,
                     // 그렇기 때문에 클래스 인덱스변수 i가 바뀔때마다 (width*height)만큼 이동함.
-//                    Log.d("", "클래스정보: " + i + " 좌표 정보: " + "(" + j +", " + k + ")" + "값: " + score);
+
                     if (score > maxnum) {
                         maxnum = score.toDouble()
                         maxi = i
@@ -130,7 +132,6 @@ class SegmentationFragment : Fragment() {
                         maxk = k
                     }
                 }
-                //                Log.d("check", "maxnum: " + maxnum);
                 if (maxi == 0) intValues[maxj * width + maxk] = -0x1000000 // black
 //                else if (maxi == 1) intValues[maxj * width + maxk] = -0xff0100 // green
 //                else intValues[maxj * width + maxk] = -0x10000 // red
@@ -151,8 +152,10 @@ class SegmentationFragment : Fragment() {
             outputBitmap.width,
             outputBitmap.height
         )
-        val transferredBitmap =
+        var transferredBitmap =
             Bitmap.createScaledBitmap(outputBitmap, bitmap.getWidth(), bitmap.getHeight(), true)
+        transferredBitmap = rotatedBitmap(transferredBitmap, args.imageUri)     // 이미지 회전 시키기 위함
+
         fragmentSegmentationBinding.segmentationImage.setImageBitmap(transferredBitmap)
 
         fragmentSegmentationBinding.fragmentSelectPhotoButton.setOnClickListener {
@@ -166,10 +169,9 @@ class SegmentationFragment : Fragment() {
             thread(start = true){
 
                 // efficientNet
-                val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "android_efficient_seg_data_v2.ptl"))
-                val outTensors = module.forward(IValue.from(inputTensor))
+                val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "Efficientnet_scripted_optimized.ptl"))
+                val outTensors = module.forward(IValue.from(reg_inputTensor))
                 val outputTensor: Tensor = outTensors.toTensor()
-                Log.d("outputTensor", "onViewCreated: $outputTensor")
                 val score = outputTensor.dataAsFloatArray[0]    // regression 이므로 값이 하나임
                                                                 // outputTensor size: (1, 1)
 
