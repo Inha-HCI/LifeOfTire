@@ -94,6 +94,7 @@ class SegmentationFragment : Fragment() {
 //        fragmentSegmentationBinding.segmentationImage.setImageURI(uri)
 
         // 가중치 파일 Load
+        // DeeplabV3
         val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "deeplabv3_scripted_optimized.ptl"))
 
         val inputTensor = TensorImageUtils.bitmapToFloat32Tensor(
@@ -163,15 +164,33 @@ class SegmentationFragment : Fragment() {
 
         showProgress(true)
             thread(start = true){
-                val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "android_efficient_seg_data.ptl"))
+
+                // efficientNet
+                val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "android_efficient_seg_data_v2.ptl"))
                 val outTensors = module.forward(IValue.from(inputTensor))
                 val outputTensor: Tensor = outTensors.toTensor()
+                Log.d("outputTensor", "onViewCreated: $outputTensor")
                 val score = outputTensor.dataAsFloatArray[0]    // regression 이므로 값이 하나임
-//                fragmentSegmentationBinding.fragmentSegTvDepth.setText(score.toString().slice(0..4) + " mm")
+                                                                // outputTensor size: (1, 1)
 
                 activity?.runOnUiThread {
                     showProgress(false)
-                    fragmentSegmentationBinding.fragmentSegTvDepth.setText(score.toString().slice(0..4) + " mm")
+
+                    if (score <= 2.5){
+                        fragmentSegmentationBinding.badTireImage.visibility = View.VISIBLE
+                    }
+
+                    else if(2.5 < score && score <= 5.0){
+                        fragmentSegmentationBinding.sosoTireImage.visibility = View.VISIBLE
+                    }
+
+                    else{
+                        fragmentSegmentationBinding.goodTireImage.visibility = View.VISIBLE
+                    }
+
+                    fragmentSegmentationBinding.fragmentSegmentationDepth.setText(score.toString().slice(0..2) + " mm")
+                    fragmentSegmentationBinding.fragmentSegmentationDepth.visibility = View.VISIBLE
+                    fragmentSegmentationBinding.fragmentSegmentationGuide.visibility = View.INVISIBLE
                 }
             }
         }

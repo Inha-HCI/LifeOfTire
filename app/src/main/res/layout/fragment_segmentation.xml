@@ -37,6 +37,45 @@
                     app:layout_constraintVertical_bias="0.0"
                     tools:srcCompat="@tools:sample/avatars" />
 
+                <ImageView
+                    android:id="@+id/bad_tire_image"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="50dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/bad_tire" />
+
+                <ImageView
+                    android:id="@+id/soso_tire_image"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="50dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/soso_tire" />
+
+                <ImageView
+                    android:id="@+id/good_tire_image"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="50dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/good_tire" />
+
+                <TextView
+                    android:id="@+id/fragment_segmentation_depth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="50dp"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:textSize="30sp"
+                    android:textColor="@color/white"/>
+
             </FrameLayout>
 
             <Button
@@ -44,6 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
+                android:layout_marginBottom="50dp"
                 android:padding="0dp"
                 android:text="깊이 추정"
                 android:textColor="@color/black"
@@ -59,17 +99,18 @@
                 android:padding="0dp"
                 android:textColor="@color/black"
                 android:text="사진 선택"
+                android:layout_marginBottom="50dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/fragment_seg_predict_button"/>
 
             <TextView
-                android:id="@+id/fragment_seg_tv_depth"
+                android:id="@+id/fragment_segmentation_guide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="깊이 측정을 진행해 주세요"
-                android:textSize="15sp"
-                android:layout_marginBottom="50dp"
+                android:textSize="30sp"
+                android:layout_marginBottom="70dp"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@id/fragment_seg_predict_button"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="50dp"
-                app:layout_constraintBottom_toTopOf="@+id/fragment_seg_tv_depth"
+                app:layout_constraintBottom_toTopOf="@+id/fragment_segmentation_guide"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
