@@ -9,5 +9,6 @@ class StoreVariable {
         var ftp_server:String?=null
         var username:String?=null
         var password:String?=null
+        var calledByJBNI:Boolean?=false
     }
 }

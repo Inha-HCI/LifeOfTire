@@ -27,10 +27,10 @@
 easy_data: 연구실에서 직접 촬영한 타이어 데이터로 학습한 것
 seg_data: 직접 타이어만 마스킹해서 배경은 검은색으로 설정하고 학습한 것
 
-[Deeplabv3_easy_data](https://drive.google.com/file/d/1jG-ewC-F9zrbyHaiM0j8wPj_q79ARCaZ/view?usp=sharing)
-[android_deeplabv3_easy_data](https://drive.google.com/file/d/1LjWfv3wgRSH1lqIRCayDc1GV7sTtbSpS/view?usp=sharing)
-[android_efficientb7_easy_seg_data - (Regression. 외부 촬영 데이터만 학습 한 것)](https://drive.google.com/file/d/1HLehAmzaNetsWiXJyOkeor_2Gmn7Zc6Y/view?usp=sharing)
-[android_efficientb7_easy_seg_data_v2 - (Regression. 연구실 촬영 데이터까지 학습 한 것)](https://drive.google.com/file/d/19IH6qJZeQDzP9rxl0LpS3Jw0PUHU1SFP/view?usp=sharing)
+[Deeplabv3_easy_data](https://drive.google.com/file/d/1jG-ewC-F9zrbyHaiM0j8wPj_q79ARCaZ/view?usp=sharing)  
+[android_deeplabv3_easy_data](https://drive.google.com/file/d/1LjWfv3wgRSH1lqIRCayDc1GV7sTtbSpS/view?usp=sharing)  
+[android_efficientb7_easy_seg_data - (Regression. 외부 촬영 데이터만 학습 한 것)](https://drive.google.com/file/d/1HLehAmzaNetsWiXJyOkeor_2Gmn7Zc6Y/view?usp=sharing)  
+[android_efficientb7_easy_seg_data_v2 - (Regression. 연구실 촬영 데이터까지 학습 한 것)](https://drive.google.com/file/d/19IH6qJZeQDzP9rxl0LpS3Jw0PUHU1SFP/view?usp=sharing)  
 
 ## 양호준
 - [x] Kotlin 안드로이드 개발을 위한 문법 복습  

@@ -112,9 +112,6 @@ class PredictSelectActivity : AppCompatActivity() {
                 5 -> depth = "5mm"
                 6 -> depth = "6mm"
             }
-
-            Log.d(TAG, "Width: ${bitmap.width}, Height: ${bitmap.height}")
-            Log.d(TAG, "Depth??: ${depth} ")
         }
 
     @Throws(IOException::class)

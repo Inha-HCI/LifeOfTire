@@ -1,8 +1,10 @@
 package com.example.tire_dataset_build_app.fragments
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -13,11 +15,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.ComponentActivity
+import androidx.core.app.ShareCompat.getCallingActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.example.tire_dataset_build_app.PredictCameraMainActivity
 import com.example.tire_dataset_build_app.R
+import com.example.tire_dataset_build_app.StoreVariable
 import com.example.tire_dataset_build_app.databinding.FragmentSegmentationBinding
 import org.pytorch.IValue
 import org.pytorch.LiteModuleLoader
@@ -193,6 +198,15 @@ class SegmentationFragment : Fragment() {
                     fragmentSegmentationBinding.fragmentSegmentationDepth.setText(score.toString().slice(0..2) + " mm")
                     fragmentSegmentationBinding.fragmentSegmentationDepth.visibility = View.VISIBLE
                     fragmentSegmentationBinding.fragmentSegmentationGuide.visibility = View.INVISIBLE
+                    
+                    if (StoreVariable.calledByJBNI == true){
+                        Log.d(TAG, "onViewCreated: called by JBNI App")
+                        var resultIntent = Intent()
+                        var value = String.format("%.2f", score)
+                        resultIntent.putExtra("result", value.toDouble())
+                        requireActivity().setResult(Activity.RESULT_OK, resultIntent)
+                        requireActivity().finish()
+                    }
                 }
             }
         }
