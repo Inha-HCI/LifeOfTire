@@ -1,4 +1,5 @@
 *.iml
+*.jpg
 .gradle
 /local.properties
 /.idea/caches
@@ -14,6 +15,8 @@
 .cxx
 local.properties
 *.ptl
+*.pt
+wandb
 
 # DeepLabV3Plus-Pytorch folder
 __pycache__
