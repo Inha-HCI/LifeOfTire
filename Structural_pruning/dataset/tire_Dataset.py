@@ -25,6 +25,7 @@ class TireDatasetSplit(Dataset):
             custom_transforms (torchvision.transformers, optional): custom transforms method 
 
         """
+        print("Tire DatasetSplit 실행됨")
         self.split_cnt = 3
         if custom_transforms:
             self.transforms = custom_transforms
@@ -104,8 +105,11 @@ class TireDataset(Dataset):
 
         else:
             #org:3024 x 4032 default transforms
-            self.transforms = transforms.Compose([transforms.Resize((512,672)),
-                                        transforms.ToTensor()])
+            self.transforms = transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Resize((640,480)),       # height, width
+                transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
+                ])
             
             # self.transforms = transforms.Compose([transforms.Resize((252,336)),
             #                             transforms.ToTensor(),
@@ -170,6 +174,7 @@ class TireDatasetMask(Dataset):
         """
         super(TireDatasetMask,self).__init__()
 
+        print("Tire Dataset Mask 실행됨")
         self.split_cnt = 3
         if custom_transforms:
             self.transforms = custom_transforms

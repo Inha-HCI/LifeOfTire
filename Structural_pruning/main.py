@@ -51,6 +51,7 @@ def parse_args():
     parser.add_argument('-bt','--batch_size',type=int ,default=2, help='data batch size')
     parser.add_argument('--check_iter',type=int, default=1,help='Eval and save interval')
     parser.add_argument('--pt_path',type=str,help='path to model weight file')
+    parser.add_argument('--name',type=str,help='wandb name')
     args = parser.parse_args()
     return args
 
@@ -99,7 +100,8 @@ def build_model(configs):
             nn.Dropout(p=0.5, inplace=True),
             nn.Linear(in_features=512, out_features=1, bias=True)
         )
-        model.classifier = out_layer
+        # model.classifier = out_layer
+        model.fc = out_layer
 
     assert model != None,'Please setting model' 
     return model
@@ -199,7 +201,8 @@ def infer(args):
     model.load_state_dict(torch.load(args.pt_path)['model_state_dict'])
     model.eval()
     transform = transforms.Compose([transforms.Resize((512,672)),
-                                        transforms.ToTensor()])
+                                    transforms.ToTensor(),
+                                    transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))])
     img_data = Image.open(args.img_path)
     img_data = transform(img_data)
     img_data = torch.unsqueeze(img_data,0)
@@ -275,7 +278,7 @@ if __name__=='__main__':
             output = infer(args)
             print(output)
     else:
-        wandb.init(project='Tire_Regression', name='v1')
+        wandb.init(project='Tire_Regression', name=args.name)
         wandb.config={
             "learning_rate":args.lr,
             "epochs": args.epochs,
