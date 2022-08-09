@@ -1,0 +1,5 @@
+[default]
+entity = munggoose
+project = tire
+base_url = https://api.wandb.ai
+
