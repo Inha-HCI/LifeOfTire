@@ -35,8 +35,10 @@ def get_argparser():
                               network.modeling.__dict__[name])
                               )
 
-    parser.add_argument("--model", type=str, default='deeplabv3plus_mobilenet',
-                        choices=available_models, help='model name')
+    # parser.add_argument("--model", type=str, default='deeplabv3plus_resnet50',
+    #                     choices=available_models, help='model name')      torch.hub에 있는 모델 쓰기 위해 주석처리
+    parser.add_argument("--model", type=str, default='deeplabv3_resnet50', help='This name will be entered to torch.hub')
+
     parser.add_argument("--separable_conv", action='store_true', default=False,
                         help="apply separable conv to decoder and aspp")
     parser.add_argument("--output_stride", type=int, default=16, choices=[8, 16])
@@ -82,10 +84,8 @@ def main():
         image_files.append(opts.input)
     
     # Set up model (all models are 'constructed at network.modeling)
-    model = torch.hub.load('pytorch/vision:v0.10.0', 'deeplabv3_resnet50', pretrained=False)
-    model = torch.hub.load('pytorch/vision:v0.10.0', 'deeplabv3_mobilenet_v3_large', pretrained=False)
     # model = network.modeling.__dict__[opts.model](num_classes=opts.num_classes, output_stride=opts.output_stride)
-
+    model = torch.hub.load('pytorch/vision:v0.10.0', opts.model, pretrained=False)
     if opts.separable_conv and 'plus' in opts.model:
         network.convert_to_separable_conv(model.classifier)
     utils.set_bn_momentum(model.backbone, momentum=0.01)
@@ -121,11 +121,14 @@ def main():
                 T.Normalize(mean=[0.485, 0.456, 0.406],
                                 std=[0.229, 0.224, 0.225]),
             ])
+    print(f"opts.save_val_results_to: {opts.save_val_results_to}")
     if opts.save_val_results_to is not None:
         os.makedirs(opts.save_val_results_to, exist_ok=True)
 
     with torch.no_grad():
         model = model.eval()
+        print("여기? ")
+        print(image_files)
         for img_path in tqdm(image_files):
             ext = os.path.basename(img_path).split('.')[-1]
             img_name = os.path.basename(img_path)[:-len(ext)-1]
@@ -134,7 +137,7 @@ def main():
             img = img.to(device)
             
             print(model(img)['out'].shape)
-            # print(model(img).max(1)[1])
+            print(model(img)['out'].max(1)[1])
             pred = model(img)['out'].max(1)[1].cpu().numpy()[0] # HW. max(1)을 통해 channel 축을 비교함
                                                          # 즉, 클래스 갯수 21개 중에서 가장 큰 값을 하나 뽑으며, 이게 HW인 1440, 1080 형태로 이루어짐
                                                          # 뒤이어 오는 [1]을 통해 index를 고르게 되므로, 이제부터는 값 자체가 아니라 index. 즉 어떤 class가 해당 pixel인지 결정됨
@@ -143,6 +146,8 @@ def main():
             colorized_preds = Image.fromarray(colorized_preds)
             if opts.save_val_results_to:
                 colorized_preds.save(os.path.join(opts.save_val_results_to, img_name+'.png'))
+                print("save 경로: " + os.path.join(opts.save_val_results_to, img_name+'.png'))
 
 if __name__ == '__main__':
     main()
+    print("Done")
