@@ -34,10 +34,10 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_marginTop="100dp"
                 style="@style/CategoricalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
                 android:text="1번" />
 
             <EditText
@@ -49,17 +49,17 @@
 
             <TextView
                 style="@style/CategoricalText"
-                android:inputType="number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:text="2번" />
 
             <EditText
                 android:id="@+id/num2"
-                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
 
             <TextView
                 style="@style/CategoricalText"
@@ -69,10 +69,10 @@
 
             <EditText
                 android:id="@+id/num3"
-                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
 
             <TextView
                 style="@style/CategoricalText"
@@ -82,10 +82,10 @@
 
             <EditText
                 android:id="@+id/num4"
-                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
 
             <TextView
                 style="@style/CategoricalText"
@@ -95,10 +95,10 @@
 
             <EditText
                 android:id="@+id/num5"
-                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
 
             <TextView
                 style="@style/CategoricalText"
@@ -108,10 +108,10 @@
 
             <EditText
                 android:id="@+id/num6"
-                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
 
             <TextView
                 style="@style/CategoricalText"
@@ -121,10 +121,10 @@
 
             <EditText
                 android:id="@+id/num7"
-                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
 
             <TextView
                 style="@style/CategoricalText"
@@ -134,10 +134,10 @@
 
             <EditText
                 android:id="@+id/num8"
-                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
 
             <TextView
                 style="@style/CategoricalText"
@@ -147,10 +147,10 @@
 
             <EditText
                 android:id="@+id/num9"
-                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
 
             <TextView
                 style="@style/CategoricalText"
@@ -160,10 +160,10 @@
 
             <EditText
                 android:id="@+id/num10"
-                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
 
             <TextView
                 style="@style/CategoricalText"
@@ -173,10 +173,10 @@
 
             <EditText
                 android:id="@+id/num11"
-                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
 
             <TextView
                 style="@style/CategoricalText"
@@ -186,10 +186,10 @@
 
             <EditText
                 android:id="@+id/num12"
-                android:inputType="numberDecimal"
                 style="@style/EditTextFormat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
         </LinearLayout>
     </ScrollView>
 
@@ -211,7 +211,6 @@
         android:layout_margin="30dp"
         android:textSize="20dp"
         android:text="저장"
-        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

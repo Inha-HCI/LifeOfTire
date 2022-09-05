@@ -1,4 +1,5 @@
 from xmlrpc.client import boolean
+import torch_pruning as tp
 import torchvision.models as models
 import torch.nn as nn
 from torch.utils.data import DataLoader,random_split
@@ -42,6 +43,8 @@ def make_exp_folder(config):
 def parse_args():
     parser = argparse.ArgumentParser(description='Train model')
     parser.add_argument("-cfg",'--config',type=str,required=True, help="path to config file")
+    parser.add_argument('--name',type=str, required=True, help='wandb name')
+    parser.add_argument('--pruning', default=False, help='Do pruning', action='store_true')
     # parser.add_argument("--data", type=str, required=True, help='path to dataset')
     parser.add_argument('--eval',  default=False, help='model mode eval',action='store_true')
     parser.add_argument('--infer', default=False,help='model model infer', action='store_true')
@@ -51,24 +54,23 @@ def parse_args():
     parser.add_argument('-bt','--batch_size',type=int ,default=2, help='data batch size')
     parser.add_argument('--check_iter',type=int, default=1,help='Eval and save interval')
     parser.add_argument('--pt_path',type=str,help='path to model weight file')
-    parser.add_argument('--name',type=str,help='wandb name')
     args = parser.parse_args()
     return args
 
 
 def build_dataset(configs,mode='train'):
     if mode =='train':
-        root_path='../Dataset/tire_data/tire_data/'
+        root_path='../Dataset/tire_data/tire_data/train'
 
     else:
-        root_path='../Dataset/tire_data/tire_data'
+        root_path='../Dataset/tire_data/tire_data/test'
 
     if configs['Dataset'] =='TireSplit':
         # dataset = TireDatasetSplit(root_path,'F:\\data\Tire_data\\tire_result.xlsx')
         dataset = TireDatasetSplit(root_path,'../Dataset/tire_data/tire_result.xlsx')
     elif configs['Dataset'] == 'Tire':
-        # dataset = TireDataset(root_path,'F:\\data\Tire_data\\tire_result.xlsx')
-        dataset = TireDataset(root_path,'../Dataset/tire_data/tire_result.xlsx')
+        dataset = TireDataset(root_path,'../Dataset/tire_data/tire_result.xlsx', mode)
+
     elif configs['Dataset'] == 'Tire_mask':
         dataset = TireDatasetMask(root_path)
 
@@ -103,6 +105,20 @@ def build_model(configs):
         # model.classifier = out_layer
         model.fc = out_layer
 
+    if configs['model'] =='resnet34':
+        model = models.resnet34(pretrained=True)
+
+        out_layer = nn.Sequential(
+            nn.Dropout(p=0.5, inplace=True),
+            nn.Linear(in_features=512, out_features=1, bias=True)
+        )
+        # model.classifier = out_layer
+        model.fc = out_layer
+
+    if args.pruning:
+        print("Executing Pruning")
+        model = prune_model(model)
+
     assert model != None,'Please setting model' 
     return model
 
@@ -119,7 +135,25 @@ def build_criterion(configs):
     else:
         return nn.MSELoss()
 
-
+def prune_model(model):
+    model.cpu()
+    DG = tp.DependencyGraph().build_dependency( model, torch.randn(1, 3, 640, 480) )
+    def prune_conv(conv, amount=0.2):
+        strategy = tp.strategy.L1Strategy()
+        pruning_index = strategy(conv.weight, amount=amount)
+        plan = DG.get_pruning_plan(conv, tp.prune_conv_out_channel, pruning_index)
+        plan.exec()
+    
+    block_prune_probs = [0.1, 0.1, 0.2, 0.2, 0.2, 0.2, 0.3, 0.3]
+    blk_id = 0
+    # print(list(model.modules()))
+    
+    for m in model.modules():
+        if isinstance( m, models.resnet.BasicBlock ):
+            prune_conv( m.conv1, block_prune_probs[blk_id] )
+            prune_conv( m.conv2, block_prune_probs[blk_id] )
+            blk_id+=1
+    return model
 
 def train(args):
     config = yaml.safe_load(open(args.config, "r"))
@@ -144,15 +178,14 @@ def train(args):
     for epoch in epoch_bar:
         total_loss = train_once(model,train_loader,criterian,optimizer)
 
-        total_loss = total_loss/len(train_loader)
-        if epoch >=1:
-            wandb.log({"loss":total_loss})
+        total_loss = total_loss / len(train_loader)
+        wandb.log({"train_avg_loss": total_loss})        
 
         epoch_bar.set_postfix_str({'avg_loss': total_loss})
 
         if (epoch+1) % args.check_iter == 0:
 
-            val_loss = eval_once(epoch,model, val_loader,criterian)
+            eval_once(epoch,model, val_loader,criterian)
             torch.save(
                 {
                     "model_state_dict":model.state_dict()
@@ -165,15 +198,17 @@ def train(args):
 def train_once(model,train_loader,criterian,optimizer):
     total_loss= 0
     dataloader_bar = tqdm(train_loader,desc='data loop',leave=False)
-    for in_data in dataloader_bar:
-        output = model(in_data['image'].cuda())
-        loss = criterian(output.to(torch.float32),in_data['label'].to(torch.float32).cuda().view(2,1))
-        loss = loss.sum()
+    for image, label in dataloader_bar:
+        # output = model(in_data['image'].cuda())
+        output = model(image.cuda())
+        # loss = criterian(output.to(torch.float32),in_data['label'].to(torch.float32).cuda().view(args.batch_size,1))
+        loss = criterian(output.to(torch.float32), label.cuda().unsqueeze(1))
+        # loss = loss.sum()
         total_loss += loss.item()
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        dataloader_bar.set_postfix({'loss':loss})
+        # dataloader_bar.set_postfix({'loss':loss})
 
     return total_loss
 
@@ -239,29 +274,26 @@ def eval_once(epoch,model,val_loader,criterian,mode='train'):
     dataloader_bar = tqdm(val_loader,desc='validation loop')
     model.eval()
     csv_list = []
-    for in_data in dataloader_bar:
+    for image, label in dataloader_bar:
         with torch.no_grad():
-            output = model(in_data['image'].cuda())
+            output = model(image.cuda())
             
-            loss = criterian(output.to(torch.float32).type(torch.FloatTensor),in_data['label'].to(torch.float32).type(torch.FloatTensor).view(2,1))
-            # predict_out = output
-            # labels = in_data['label']
-            # csv_list.append([predict_out[0].item(),labels[0].item()])
-            # csv_list.append([predict_out[1].item(),labels[1].item()])
+            # loss = criterian(output.to(torch.float32).type(torch.FloatTensor),label.to(torch.float32).type(torch.FloatTensor).view(args.batch_size,1))
+            loss = criterian(output.to(torch.float32), label.cuda().unsqueeze(1))
 
         if mode =='eval':
-            label = in_data['label']
+            label = label
  
         # loss = loss.sum()
         total_loss += loss.item()
-        dataloader_bar.set_postfix({'loss':loss.item()})
+        # dataloader_bar.set_postfix({'loss':loss.item()})
     
     # csv_list = pd.DataFrame(csv_list,columns=['predict','label'])
     # csv_list.to_csv('mask_result.csv')
 
-    avg_loss = total_loss/len(val_loader)
-    wandb.log({"val loss":avg_loss})
-    print(f'epoch {epoch+1}:  val_avg_loss: {avg_loss} total loss: {total_loss}')
+    avg_loss = total_loss / len(val_loader)
+    wandb.log({"validation avg loss":avg_loss})
+    dataloader_bar.set_postfix({"validation avg loss": avg_loss})
     return avg_loss
 
 

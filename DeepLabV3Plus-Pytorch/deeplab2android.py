@@ -257,10 +257,10 @@ def main():
     utils.set_bn_momentum(model.backbone, momentum=0.01)
     # model.load_state_dict(torch.load('./best_deeplabv3plus_mobilenet_voc_os16.pth')['model_state'])
 
-    model = torch.hub.load('pytorch/vision:v0.10.0', 'deeplabv3_resnet50', pretrained=False)
+    model = torch.hub.load('pytorch/vision:v0.10.0', 'deeplabv3_mobilenet_v3_large')
     # model.load_state_dict(torch.load('./latest_deeplabv3plus_mobilenet_voc_os16.pth')['model_state'])
     # model.load_state_dict(torch.load('./deeplab_resnet50_final.pth')['model_state'])
-    model.load_state_dict(torch.load('./chae_model.pth')['model_state'])
+    model.load_state_dict(torch.load('./checkpoints/220905_experiment_mobilenet_deeplabv3.pth')['model_state'])
     model.eval()
 
     # Deeplabv3 repo에서 3개 ptl 파일 추출하느 코드
@@ -268,11 +268,11 @@ def main():
     optimized_scripted_module = optimize_for_mobile(scripted_module)
 
     # Export full jit version model (not compatible with lite interpreter)
-    scripted_module.save("deeplabv3_scripted.pt")
+    # scripted_module.save("deeplabv3_scripted.pt")
     # Export lite interpreter version model (compatible with lite interpreter)
-    scripted_module._save_for_lite_interpreter("deeplabv3_scripted.ptl")
+    # scripted_module._save_for_lite_interpreter("deeplabv3_scripted.ptl")
     # using optimized lite interpreter model makes inference about 60% faster than the non-optimized lite interpreter model, which is about 6% faster than the non-optimized full jit model
-    optimized_scripted_module._save_for_lite_interpreter("deeplabv3_scripted_optimized.ptl")
+    optimized_scripted_module._save_for_lite_interpreter("ex1.ptl")
     exit()
 
     # mobilenet 할 때 ptl 파일 추출한 코드

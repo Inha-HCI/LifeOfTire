@@ -9,6 +9,7 @@ from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils
 from glob import glob
 from utils import split_img
+from tqdm import tqdm
 
 
 
@@ -89,15 +90,24 @@ class TireDatasetSplit(Dataset):
 
 
 class TireDataset(Dataset):
-    def __init__(self,root_path, excel_path,custom_transforms=None):
+    def __init__(self,root_path, excel_path, mode, custom_transforms=None):
         """_summary_
 
         Args:
             root_path (str): data root folder
             excel_path (str): tire_data label excel-> 'tire_result.xlsx' path
+            mode (str): whether train or test
             custom_transforms (torchvision.transformers, optional): custom transforms method 
-
         """
+
+        print("Dataset is being created...")
+
+        if f'{mode}_images.pt' in os.listdir(root_path) and f'{mode}_labels.pt' in os.listdir(root_path):
+            print("Use Cache !!")
+            self.img = torch.load(os.path.join(root_path, f'{mode}_images.pt'))
+            self.label = torch.load(os.path.join(root_path, f'{mode}_labels.pt'))
+            return
+        
         self.split_cnt = 3
         if custom_transforms:
             self.transforms = custom_transforms
@@ -106,16 +116,12 @@ class TireDataset(Dataset):
         else:
             #org:3024 x 4032 default transforms
             self.transforms = transforms.Compose([
-                transforms.ToTensor(),
+                transforms.ToTensor(),       
                 transforms.Resize((640,480)),       # height, width
                 transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
                 ])
-            
-            # self.transforms = transforms.Compose([transforms.Resize((252,336)),
-            #                             transforms.ToTensor(),
-            #                             transforms.Normalize([meanR, meanG, meanB], [stdR, stdG, stdB])]
-            # /self.label_transforms = transforms.Compose([transforms.ToTensor()])
-        # label = torch.FloatTensor(label)
+
+        self.img = []    
         self.img_paths = [] 
         self.label = []
         
@@ -132,16 +138,21 @@ class TireDataset(Dataset):
         label = label[['sid','class']] #sid:folder name ,class: label(average depth)
 
 
-        for folder_name, cls in label[['sid','class']].values:
+        for folder_name, cls in tqdm(label[['sid','class']].values, ascii=True, desc='Transforming'):
             f_path = os.path.join(root_path,str(int(folder_name)))
             data_paths = glob(f'{f_path}/*.jpg')
 
             for img in data_paths:
-                self.img_paths.append(img)
+                self.img.append(self.transforms(Image.open(img)))
+                # self.img_paths.append(img)
                 self.label.append(cls)
-    
+
+        torch.save(self.img, os.path.join(root_path, f'{mode}_images.pt'))
+        torch.save(self.label, os.path.join(root_path, f'{mode}_labels.pt'))
+
     def __len__(self):
-        return len(self.img_paths)
+        # return len(self.img_paths)
+        return len(self.img)
 
 
 
@@ -154,13 +165,16 @@ class TireDataset(Dataset):
         """
 
         label = self.label[idx]
-        image = Image.open(self.img_paths[idx])
-        # image = np.array(image)
-        # image = np.array(image)
-        sample = {"image":image,'label':torch.tensor(label,dtype=float)}
-        sample['image'] = self.transforms(sample['image'])
+        # image = Image.open(self.img_paths[idx])
 
-        return sample
+
+        # sample = {"image":image,'label':torch.tensor(label,dtype=float)}
+        # sample['image'] = self.transforms(sample['image'])
+
+        # image = self.transforms(image)
+        image = self.img[idx]
+        label = torch.tensor(label, dtype=torch.float32)
+        return image, label
 
 
 class TireDatasetMask(Dataset):
@@ -219,7 +233,8 @@ class TireDatasetMask(Dataset):
         image = Image.open(self.img_paths[idx])
         # image = np.array(image)
         # image = np.array(image)
-        sample = {"image":image,'label':torch.tensor(label,dtype=float)}
-        sample['image'] = self.transforms(sample['image'])
-
+        
+        ''' 여기 아님~~ '''
+        sample = {"image":torch.tensor(image,dtype=float, device='cuda:0'),'label':torch.tensor(label,dtype=float, device='cuda:0')}
+        # sample['image'] = self.transforms(sample['image'])
         return sample

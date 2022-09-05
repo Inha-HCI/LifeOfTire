@@ -15,8 +15,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.ComponentActivity
-import androidx.core.app.ShareCompat.getCallingActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
@@ -24,8 +22,10 @@ import com.example.tire_dataset_build_app.PredictCameraMainActivity
 import com.example.tire_dataset_build_app.R
 import com.example.tire_dataset_build_app.StoreVariable
 import com.example.tire_dataset_build_app.databinding.FragmentSegmentationBinding
+import org.apache.commons.net.ntp.TimeStamp.getCurrentTime
 import org.pytorch.IValue
 import org.pytorch.LiteModuleLoader
+import org.pytorch.Module
 import org.pytorch.Tensor
 import org.pytorch.torchvision.TensorImageUtils
 import java.io.File
@@ -91,12 +91,13 @@ class SegmentationFragment : Fragment() {
         var bitmap = BitmapFactory.decodeStream(requireActivity().contentResolver.openInputStream(uri))
 //        Log.d("before bitmap height, width", "onViewCreated: ${bitmap.height}, ${bitmap.width}")
 //        bitmap = rotatedBitmap(bitmap, args.imageUri)
-        Log.d("after bitmap height, width", "onViewCreated: ${bitmap.height}, ${bitmap.width}")
+        Log.d("bitmap.height, bitmap.width", "onViewCreated: ${bitmap.height}, ${bitmap.width}")
 
 
         // 가중치 파일 Load
         // DeeplabV3
-        val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "deeplabv3_scripted_optimized.ptl"))
+//        val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "deeplabv3_scripted_optimized.ptl"))
+        val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "ex1.ptl"))     // 220905에 mobilenet 기반으로 segmentation
 
         val seg_inputTensor = TensorImageUtils.bitmapToFloat32Tensor(
             bitmap,
@@ -106,8 +107,10 @@ class SegmentationFragment : Fragment() {
 
         val reg_inputTensor = TensorImageUtils.bitmapToFloat32Tensor(
             bitmap,
-            floatArrayOf(0.0f, 0.0f, 0.0f),
-            floatArrayOf(1.0f, 1.0f, 1.0f)
+//            floatArrayOf(0.0f, 0.0f, 0.0f),
+//            floatArrayOf(1.0f, 1.0f, 1.0f)
+            floatArrayOf(0.485f, 0.456f, 0.406f),
+            floatArrayOf(0.229f, 0.224f, 0.225f)
         )
 
         val outTensors = module.forward(IValue.from(seg_inputTensor)).toDictStringKey()
@@ -172,14 +175,22 @@ class SegmentationFragment : Fragment() {
 
         showProgress(true)
             thread(start = true){
-
+//                val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "prune_model.ptl"))
+//                val module = Module.load(assetFilePath(requireActivity(), "reres.pt"))
                 // efficientNet
-                val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "Efficientnet_scripted_optimized.ptl"))
-                val outTensors = module.forward(IValue.from(reg_inputTensor))
+//                val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "Efficientnet_scripted_optimized.ptl"))
+                val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "resnet18_100epoch_v2.ptl"))
+                val startTime = Date().time
+
+                 val outTensors = module.forward(IValue.from(reg_inputTensor))        // Efficientnet은 mean(0, 0, 0) std(1, 1, 1)로 학습했었나보네
+//                val outTensors = module.forward(IValue.from(seg_inputTensor))           // ImageNet mean, std로 학습해보자
                 val outputTensor: Tensor = outTensors.toTensor()
+//                Log.d(TAG, "outputTensor shape: ${outputTensor.toString()}")
+                val endTime = Date().time
+                Log.d(TAG, "ElapsedTime: ${endTime - startTime}")
                 val score = outputTensor.dataAsFloatArray[0]    // regression 이므로 값이 하나임
                                                                 // outputTensor size: (1, 1)
-
+                Log.d(TAG, "output score: ${score}")
                 activity?.runOnUiThread {
                     showProgress(false)
 
