@@ -19,12 +19,15 @@ from PIL import Image
 import matplotlib
 import matplotlib.pyplot as plt
 
+import warnings
+warnings.filterwarnings(action='ignore')
+
 
 def get_argparser():
     parser = argparse.ArgumentParser()
 
     # Datset Options
-    parser.add_argument("--data_root", type=str, default='./datasets/data',
+    parser.add_argument("--data_root", type=str, default='./datasets/data/tire_dataset_voc/',
                         help="path to Dataset")
     parser.add_argument("--dataset", type=str, default='voc',
                         choices=['voc', 'cityscapes'], help='Name of dataset')
@@ -36,8 +39,9 @@ def get_argparser():
                               not (name.startswith("__") or name.startswith('_')) and callable(
                               network.modeling.__dict__[name])
                               )
-    parser.add_argument("--model", type=str, default='deeplabv3plus_mobilenet',
-                        choices=available_models, help='model name')
+    # parser.add_argument("--model", type=str, default='deeplabv3plus_resnet50',
+    #                     choices=available_models, help='model name')      torch.hub에 있는 모델 쓰기 위해 주석처리
+    parser.add_argument("--model", type=str, default='deeplabv3_resnet50', help='This name will be entered to torch.hub')
     parser.add_argument("--separable_conv", action='store_true', default=False,
                         help="apply separable conv to decoder and aspp")
     parser.add_argument("--output_stride", type=int, default=16, choices=[8, 16])
@@ -170,7 +174,7 @@ def validate(opts, model, loader, device, metrics, ret_samples_ids=None):
             images = images.to(device, dtype=torch.float32)
             labels = labels.to(device, dtype=torch.long)
 
-            outputs = model(images)
+            outputs = model(images)['out']
             preds = outputs.detach().max(dim=1)[1].cpu().numpy()
             targets = labels.cpu().numpy()
 
@@ -221,8 +225,11 @@ def main():
     if vis is not None:  # display options
         vis.vis_table("Options", vars(opts))
 
+    os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
     os.environ['CUDA_VISIBLE_DEVICES'] = opts.gpu_id
+    # os.environ['CUDA_VISIBLE_DEVICES'] = "0, 1, 2, 3"
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
     print("Device: %s" % device)
 
     # Setup random seed
@@ -244,7 +251,9 @@ def main():
           (opts.dataset, len(train_dst), len(val_dst)))
 
     # Set up model (all models are 'constructed at network.modeling)
-    model = network.modeling.__dict__[opts.model](num_classes=opts.num_classes, output_stride=opts.output_stride)
+    # model = network.modeling.__dict__[opts.model](num_classes=opts.num_classes, output_stride=opts.output_stride)
+    model = torch.hub.load('pytorch/vision:v0.10.0', opts.model, pretrained=False)
+    # model = torch.hub.load('pytorch/vision:v0.10.0', 'deeplabv3_resnet50', pretrained=False)
     if opts.separable_conv and 'plus' in opts.model:
         network.convert_to_separable_conv(model.classifier)
     utils.set_bn_momentum(model.backbone, momentum=0.01)
@@ -331,7 +340,7 @@ def main():
             labels = labels.to(device, dtype=torch.long)
 
             optimizer.zero_grad()
-            outputs = model(images)
+            outputs = model(images)['out']
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
