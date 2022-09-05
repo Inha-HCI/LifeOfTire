@@ -37,6 +37,7 @@ import android.widget.Toast
 import androidx.camera.core.*
 import androidx.camera.core.ImageCapture.Metadata
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.collection.CircularArray
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
 import androidx.core.view.setPadding
@@ -90,6 +91,15 @@ class CameraFragment : Fragment() {
 
     private lateinit var outputDirectory: File
     private lateinit var broadcastManager: LocalBroadcastManager
+
+    private val tire_img_array: Array<Int> = arrayOf(
+        R.drawable.tire1,
+        R.drawable.tire2,
+        R.drawable.tire3,
+        R.drawable.tire4,
+        R.drawable.tire5,
+    )
+    private var idx:Int = 0
 
     private var displayId: Int = -1
     private var lensFacing: Int = CameraSelector.LENS_FACING_BACK
@@ -299,9 +309,8 @@ class CameraFragment : Fragment() {
                 // during the lifecycle of this use case
                 // 이미지가 회전되서 찍혔을 경우 EXIF 메타데이터에 회전 정보가 들어가게함
                 .setTargetRotation(rotation)
-
                 // 해상도 조절용
-                .setTargetResolution(Size(1080, 1920))
+                .setTargetResolution(Size(480, 640))
                 .build()
 
         // ImageAnalysis
@@ -313,6 +322,7 @@ class CameraFragment : Fragment() {
                 .setTargetRotation(rotation)
                 .build()
                 // The analyzer can then be assigned to the instance
+
                 .also {
                     it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { luma ->
                         // Values returned from our analyzer are passed to the attached listener
@@ -329,7 +339,7 @@ class CameraFragment : Fragment() {
             // A variable number of use-cases can be passed here -
             // camera provides access to CameraControl & CameraInfo
             camera = cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture, imageAnalyzer)
+                    this, cameraSelector, preview, imageCapture)        // imageAnalyzer는 필요없을것 같아서 뺌
 
             // Attach the viewfinder's surface provider to preview use case
             preview?.setSurfaceProvider(fragmentCameraBinding.viewFinder.surfaceProvider)
@@ -477,7 +487,6 @@ class CameraFragment : Fragment() {
 
             // Get a stable reference of the modifiable image capture use case
             imageCapture?.let { imageCapture ->
-
                 // Create output file to hold the image
                 val photoFile = createFile(outputDirectory, FILENAME, PHOTO_EXTENSION)
 
@@ -549,18 +558,28 @@ class CameraFragment : Fragment() {
         // Setup for button used to switch cameras
         cameraUiContainerBinding?.cameraSwitchButton?.let {
 
+            // camera 앞, 뒤 바꾸는 전체 코드
             // Disable the button until the camera is set up
-            it.isEnabled = false
+//            it.isEnabled = false
+//
+//            // Listener for button used to switch cameras. Only called if the button is enabled
+//            it.setOnClickListener {
+//                lensFacing = if (CameraSelector.LENS_FACING_FRONT == lensFacing) {
+//                    CameraSelector.LENS_FACING_BACK
+//                } else {
+//                    CameraSelector.LENS_FACING_FRONT
+//                }
+//                // Re-bind use cases to update selected camera
+//                bindCameraUseCases()
+//            }
 
-            // Listener for button used to switch cameras. Only called if the button is enabled
+
+            // 투명한 타이어 이미지 바꾸기 위한 코드
             it.setOnClickListener {
-                lensFacing = if (CameraSelector.LENS_FACING_FRONT == lensFacing) {
-                    CameraSelector.LENS_FACING_BACK
-                } else {
-                    CameraSelector.LENS_FACING_FRONT
-                }
-                // Re-bind use cases to update selected camera
-                bindCameraUseCases()
+                idx++
+                idx %= 5
+
+                fragmentCameraBinding.tireImage.setImageResource(tire_img_array[idx])
             }
         }
 
@@ -573,12 +592,10 @@ class CameraFragment : Fragment() {
 //                ).navigate(CameraFragmentDirections
 //                        .actionCameraToGallery(outputDirectory.absolutePath))
 
-                val action = CameraFragmentDirections.actionCameraToGallery("hojun")
-                findNavController().navigate(action)
-//                    Navigation.findNavController(
-//                            requireActivity(), R.id.fragment_container
-//                    ).navigate(CameraFragmentDirections
-//                            .actionCameraToGallery(outputDirectory.absolutePath))       // nav_graph.xml에 root_directory라는 id로 args가 적혀있음
+                    Navigation.findNavController(
+                            requireActivity(), R.id.fragment_container
+                    ).navigate(CameraFragmentDirections
+                        .actionCameraToGallery(outputDirectory.absolutePath))       // nav_graph.xml에 root_directory라는 id로 args가 적혀있음
 //                                                                                        // outputDirectory.absolutePath 정보가 gallery fragment로 넘어갈 때
 //                                                                                        // 전달됨
             }

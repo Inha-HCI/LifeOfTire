@@ -5,6 +5,7 @@
 - [목차](#목차)
 - [일정](#일정)
 - [진행상황](#진행상황)
+- [Weight File](#weight-file)
   - [양호준](#양호준)
   - [이문형](#이문형)
   - [정회준](#정회준)
@@ -21,6 +22,15 @@
 # 진행상황
 
 본인 이름 아래에 자기 계획 정리해두고 진행사항 **ipynb 파일로 정리**해서 남길 것 (전처리 작업, 혹은 계획사항 내지 진행사항 같은것 모두가 보기 쉽게 하여 협업하기 위함임)
+
+# Weight File
+easy_data: 연구실에서 직접 촬영한 타이어 데이터로 학습한 것
+seg_data: 직접 타이어만 마스킹해서 배경은 검은색으로 설정하고 학습한 것
+
+[Deeplabv3_easy_data](https://drive.google.com/file/d/1jG-ewC-F9zrbyHaiM0j8wPj_q79ARCaZ/view?usp=sharing)  
+[android_deeplabv3_easy_data](https://drive.google.com/file/d/1LjWfv3wgRSH1lqIRCayDc1GV7sTtbSpS/view?usp=sharing)  
+[android_efficientb7_easy_seg_data - (Regression. 외부 촬영 데이터만 학습 한 것)](https://drive.google.com/file/d/1HLehAmzaNetsWiXJyOkeor_2Gmn7Zc6Y/view?usp=sharing)  
+[android_efficientb7_easy_seg_data_v2 - (Regression. 연구실 촬영 데이터까지 학습 한 것)](https://drive.google.com/file/d/19IH6qJZeQDzP9rxl0LpS3Jw0PUHU1SFP/view?usp=sharing)  
 
 ## 양호준
 - [x] Kotlin 안드로이드 개발을 위한 문법 복습  
@@ -41,11 +51,11 @@
     - [x] ViewPager2 접목
     - [x] Custom Gallery 활용을 위해 오픈소스 코드 해석 및 적용
   - [x] GUI 다듬기
-- [ ] 타이어 세그멘테이션 & UI 다듬기
+- [x] 타이어 세그멘테이션 & UI 다듬기
   - [x] 이미지 세그멘테이션 어플 돌리기(Pytorch 버젼 문제로 에러 발생해서 정신 나가는줄)
-  - [ ] 석채 세그멘테이션 데이터 받아서 학습하고 결과 확인
-  - [ ] 이미지 이진화로 타이어 트레드만 추출
-  - [ ] 가이드라인 추가
+  - [x] 석채 세그멘테이션 데이터 받아서 학습하고 결과 확인
+  - [x] 이미지 이진화로 타이어 트레드만 추출
+  - [x] 가이드라인 추가
 
 ## 이문형
 - [] DataSet (Nas에 Tire_data.zip 올려둠 )  
@@ -59,9 +69,11 @@
 - [x] Dataset code **tire_Dataset.py** update 주석참고 (22_02_20)
 - [x] 원본 이미지 해상도 __3024 x 4032__ 리사이징시 타이어 마모선이 보이지않는 이슈 및 데이터 사이즈가 너무 커짐 ->
 - [x] 이미지 9등분으로 분할 기능분할
-- [ ] 기존 9분할 처리에서 고해상도 단일 이미지 입력으로 데이터 로더 변경 
-- [ ] 석채한테 데이터 받아서 pytorch pretrain model 로 학습(현재 Efficientnet)
-- [ ] 모델 결과 확인 후 모델 추가적으로 (VIT,swin) 2가지 더 실험
+- [x] 기존 9분할 처리에서 고해상도 단일 이미지 입력으로 데이터 로더 변경 
+- [x] 석채한테 데이터 받아서 pytorch pretrain model 로 학습(현재 Efficientnet)
+- [] 모델 결과 확인 후 모델 추가적으로 (VIT,swin) 2가지 더 실험
+- [사용모델] EfficientNet, (https://github.com/Munggoose/Tire_depth_predict.git)
+- [beast-pth-file](https://drive.google.com/file/d/1kLAFHgQn_VoaVcyRAcMw1Y3LAgAHPlvs/view?usp=sharing)
 
    
 
@@ -90,7 +102,10 @@
   - [apk 파일](/app/release/app-release.apk)
 
 - V 2.0 (2022-03-09)
-  - [apk 파일](/app/build/outputs/apk/debug/app-debug.apk)
+  - ~~[apk 파일](/app/build/outputs/apk/debug/app-debug.apk)~~
   - 데모영상
+    <img width="60%" src="/videos/Demo.gif">
 
-<img width="60%" src="/videos/Demo.gif">
+- V 3.0 (2022-06-03)
+  - [apk 파일](/app/build/outputs/apk/debug/app-debug.apk)
+

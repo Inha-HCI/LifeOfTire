@@ -124,6 +124,7 @@ def main():
     print(f"opts.save_val_results_to: {opts.save_val_results_to}")
     if opts.save_val_results_to is not None:
         os.makedirs(opts.save_val_results_to, exist_ok=True)
+
     with torch.no_grad():
         model = model.eval()
         print("여기? ")

@@ -177,7 +177,6 @@
                 android:layout_height="80dp"
                 android:layout_margin="30dp"
                 android:text="촬영 시작"
-                android:textColor="@color/white"
                 android:textSize="20dp" />
 
 

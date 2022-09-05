@@ -1,5 +1,6 @@
 *.iml
 *.zip
+*.jpg
 .gradle
 /local.properties
 /.idea/caches
@@ -14,6 +15,10 @@
 .externalNativeBuild
 .cxx
 local.properties
+*.ptl
+*.pt
+wandb
+.vscode
 
 # DeepLabV3Plus-Pytorch folder
 __pycache__

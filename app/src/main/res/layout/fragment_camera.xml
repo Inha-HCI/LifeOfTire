@@ -16,6 +16,7 @@
   -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/camera_container"
     android:background="@android:color/black"
     android:layout_width="match_parent"
@@ -25,5 +26,53 @@
         android:id="@+id/view_finder"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+<!-- layout 구성하기 위해 둔 것임. 그래서 invisible-->
+    <RelativeLayout
+        android:visibility="invisible"
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="2dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@android:color/tertiary_text_dark"
+            android:text="실험 종료"
+            />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/tire_image"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:alpha="0.4"
+        android:elevation="1dp"
+        android:src="@drawable/tire1"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:layout_constraintBottom_toTopOf="@+id/camera_capture_button" />
+
+<!--    레이아웃 맞추기 위함. 안쓰기 때문에 invisible로 둠-->
+    <ImageButton
+        android:visibility="invisible"
+        android:id="@+id/camera_capture_button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="10dp"
+        android:background="@null"
+        android:elevation="2dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/camera_no_click" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

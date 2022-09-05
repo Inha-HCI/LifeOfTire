@@ -45,6 +45,10 @@ class PredictCameraMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityMainBinding = ActivityPredictCameraMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+
+        if (callingActivity != null){
+            StoreVariable.calledByJBNI = true
+        }
     }
 
     override fun onResume() {

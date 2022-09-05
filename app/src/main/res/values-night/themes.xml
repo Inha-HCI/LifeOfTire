@@ -2,9 +2,14 @@
     <!-- Base application theme. -->
     <style name="Theme.Tire_dataset_build_app" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
+        <!--colorPrimary는 App 색깔을 의미-->
         <item name="colorPrimary">#064DA2</item>
+        <!--colorPrimaryVariant는 색상의 그림자-->
         <item name="colorPrimaryVariant">#0065B3</item>
-        <item name="colorOnPrimary">#4682b4</item>
+        <!--colorOnPrimary는 주 색상이 적용된 요소(글자 등)에 적용되는 색상-->
+        <!--        <item name="colorOnPrimary">#4682b4</item>-->
+        <item name="colorOnPrimary">@color/white</item>
+
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#064DA2</item>
         <item name="colorSecondaryVariant">#0065B3</item>

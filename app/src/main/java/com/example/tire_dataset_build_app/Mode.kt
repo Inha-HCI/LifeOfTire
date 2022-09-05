@@ -1,14 +1,12 @@
 package com.example.tire_dataset_build_app
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.Size
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -17,6 +15,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
@@ -118,6 +117,19 @@ class Mode : AppCompatActivity() {
                 }
 
             imageCapture = ImageCapture.Builder()
+                .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+
+                // We request aspect ratio but no resolution to match preview config, but letting
+                // CameraX optimize for whatever specific resolution best fits our use cases
+                // 카메라 센서값에 기반하여 최적의 해상도 세팅함. 단 setTargetResolution과는 같이 사용할 수 없음
+//                .setTargetAspectRatio(screenAspectRatio)
+                // Set initial target rotation, we will have to call this again if rotation changes
+                // during the lifecycle of this use case
+                // 이미지가 회전되서 찍혔을 경우 EXIF 메타데이터에 회전 정보가 들어가게함
+//                .setTargetRotation(rotation)
+
+                // 해상도 조절용
+                .setTargetResolution(Size(3024, 4032))
                 .build()
 
             // Select back camera as a default

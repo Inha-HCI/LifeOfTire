@@ -90,6 +90,9 @@ class TireDataset(Dataset):
 
 
         for folder_name, cls in tqdm(label[['sid','class']].values):
+            if folder_name == '202205312':
+                print("Add New Data")
+                
             f_path = os.path.join(root_path,str(folder_name))
 
             data_paths = glob(f'{f_path}/*.jpg')
