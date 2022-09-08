@@ -10,6 +10,7 @@
   - [이문형](#이문형)
   - [정회준](#정회준)
   - [이석채](#이석채)
+- [학습 (165.246.44.72에서 hojun_pytorchv2 도커 컨테이너로 진행)](#학습-1652464472에서-hojun_pytorchv2-도커-컨테이너로-진행)
 - [실행파일](#실행파일)
 
 # 일정
@@ -95,6 +96,17 @@ seg_data: 직접 타이어만 마스킹해서 배경은 검은색으로 설정�
 |4|<img src="./images/KakaoTalk_20220523_161033910_06.jpg" width="200" height="400"/>|<img src="./images/KakaoTalk_20220523_161033910_06.png" width="200" height="400"/>|
 |5|<img src="./images/KakaoTalk_20220523_161033910_12.jpg" width="200" height="400"/>|<img src="./images/KakaoTalk_20220523_161033910_12.png" width="200" height="400"/>|
 
+
+# 학습 (165.246.44.72에서 hojun_pytorchv2 도커 컨테이너로 진행)
+- 학습 데이터 경로: DeepLabV3Plus-Pytorch/data/tire_dataset_voc
+  - tire_aug.txt, tire_train.txt, tire_val.txt 존재해야 함
+
+- 학습 코드 경로: DeepLabV3Plus-Pytorch/train.py
+  - torch.hub의 mobilenetv3로 학습 진행. weight file은 DeepLabV3Plus-Pytorch/checkpoints에 best, last 2개 파일로 저장됨
+
+  ```python
+  python train.py --model deeplabv3_mobilenet_v3_large --batch_size 16 --val_batch_size 16 --print_interval 100 --val_interval 1000 --total_itrs 90000
+  ```
 
 
 # 실행파일

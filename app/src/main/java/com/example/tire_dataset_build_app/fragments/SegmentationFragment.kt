@@ -97,7 +97,7 @@ class SegmentationFragment : Fragment() {
         // 가중치 파일 Load
         // DeeplabV3
 //        val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "deeplabv3_scripted_optimized.ptl"))
-        val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "ex1.ptl"))     // 220905에 mobilenet 기반으로 segmentation
+        val module = LiteModuleLoader.load(assetFilePath(requireActivity(), "220905_mobilenetv3_deeplabv3.ptl"))     // 220905에 mobilenet 기반으로 segmentation
 
         val seg_inputTensor = TensorImageUtils.bitmapToFloat32Tensor(
             bitmap,

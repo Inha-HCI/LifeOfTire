@@ -110,6 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="깊이 측정을 진행해 주세요"
+                android:textColor="@color/white"
                 android:textSize="30sp"
                 android:layout_marginBottom="70dp"
                 app:layout_constraintBottom_toTopOf="@id/fragment_seg_predict_button"
