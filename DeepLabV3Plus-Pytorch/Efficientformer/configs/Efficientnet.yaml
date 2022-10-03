@@ -1,0 +1,3 @@
+Dataset: 'Tire'
+model: 'Efficientnet'
+criterian: 'MSE'

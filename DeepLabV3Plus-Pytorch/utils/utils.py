@@ -2,6 +2,7 @@ from torchvision.transforms.functional import normalize
 import torch.nn as nn
 import numpy as np
 import os 
+from PIL import Image
 
 def denormalize(tensor, mean, std):
     mean = np.array(mean)
@@ -36,3 +37,23 @@ def fix_bn(model):
 def mkdir(path):
     if not os.path.exists(path):
         os.mkdir(path)
+
+
+
+## make masked image for Efficientformer input LMH (22.10.03)
+def image_mask_filtered(img,pred):
+    """_summary_ make masked_image from mask and image
+
+    Args:
+        img (Image): _description_
+        pred (np.array): _description_ H, W, 3
+
+    Returns:
+        _type_: _description_
+    """
+    sample = np.array(img)
+    sample = sample[:,:,:3] # 채널 3음로변경하는 부분
+    mask = np.expand_dims(pred, axis=2)
+    mask_3ch = np.repeat(mask,[3],axis=2)
+    masked_image = Image.fromarray(np.where(mask_3ch==1, img,0).astype(np.uint8))
+    return masked_image
