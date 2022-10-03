@@ -80,6 +80,9 @@ seg_data: 직접 타이어만 마스킹해서 배경은 검은색으로 설정�
 - [사용모델] EfficientNet, (https://github.com/Munggoose/Tire_depth_predict.git)
 - [beast-pth-file](https://drive.google.com/file/d/1kLAFHgQn_VoaVcyRAcMw1Y3LAgAHPlvs/view?usp=sharing)
 
+- 깊이추정 모델 Efficientformer 추가 사용법운 , ./Efficientformer/infer.py 참고, (2022/10/03)
+- 세그멘테이션 모델 output인 mask를 통하여 이미지에서 깊이추정 모델용으로 이미지 마스킹 처리하는 함수 ./DeepLabV3Plus-Pytorch/utils/utils.py 에 image_mask_filtered 함수 추가
+
    
 
 ## 정회준
