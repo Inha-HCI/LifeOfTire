@@ -138,7 +138,9 @@ def main():
             
             print(model(img)['out'].shape)
             print(model(img)['out'].max(1)[1])
-            pred = model(img)['out'].max(1)[1].cpu().numpy()[0] # HW. max(1)을 통해 channel 축을 비교함
+            pred = model(img)['out'].max(1)[1].cpu().numpy()[0] 
+            # 이 pred값을 무랭이 utils.utils.py의 image_mask_filtered 함수의 pred argu에 넣어주면됨
+            # HW. max(1)을 통해 channel 축을 비교함
                                                          # 즉, 클래스 갯수 21개 중에서 가장 큰 값을 하나 뽑으며, 이게 HW인 1440, 1080 형태로 이루어짐
                                                          # 뒤이어 오는 [1]을 통해 index를 고르게 되므로, 이제부터는 값 자체가 아니라 index. 즉 어떤 class가 해당 pixel인지 결정됨
                                                          # 마지막 [0]을 통해 배치 dimentsion을 없애줌
