@@ -39,7 +39,7 @@ if __name__ == '__main__':
     # )
     # model.fc = out_layer
 
-    model = models.resnet34()
+    model = models.resnet18()
     # out_layer = nn.Sequential(
     #     nn.Dropout(p=0.5, inplace=True),
     #     nn.Linear(in_features=2048, out_features=1, bias=True)

@@ -37,6 +37,8 @@ seg_data: 직접 타이어만 마스킹해서 배경은 검은색으로 설정�
 
 [mobilenet_deeplabv3](https://drive.google.com/file/d/1fECgY0-SjTXQUzhN0jwG7ZdhqB7EBHOX/view?usp=sharing)
 
+[resnet18_pruned](https://drive.google.com/file/d/1RfCOc6ZanYfuTgEXcaE0eHXPAy14SEu8/view?usp=sharing)
+
 ## 양호준
 - [x] Kotlin 안드로이드 개발을 위한 문법 복습  
   [복습자료](https://yanghojun.github.io/Kotlin%20%EA%B8%B0%EC%B4%88/)
