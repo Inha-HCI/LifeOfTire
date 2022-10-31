@@ -17,19 +17,23 @@ if __name__ == '__main__':
     )
     model.fc = out_layer
     
-    # model = prune_model(model)
+    model = prune_model(model)
+
+    print(pms.summary(model, torch.zeros(1, 3, 640, 480)))
+    print('#'*50)
+    
 
     # model = torch.load('./outputs/resnet18/2022-08-16_00-26-49/80.pt')['model_state_dict']
     # print(model)
 
     # Load weight
-    model.load_state_dict(torch.load('./outputs/resnet18/2022-08-16_00-26-49/80.pt')['model_state_dict'])
+    model.load_state_dict(torch.load('./outputs/resnet18/resnet18_pruned_100epoch_new_data/80.pt')['model_state_dict'])
     # model.load_state_dict(torch.load('./outputs/resnet18/resnet18_100epoch/80.pt')['model_state_dict'])
     model.eval()
 
     print(pms.summary(model, torch.zeros(1, 3, 640, 480)))
 
-    img_path = './tire2.jpg'
+    img_path = './tire3.jpg'
 
     transform = transforms.Compose([
                 transforms.ToTensor(),

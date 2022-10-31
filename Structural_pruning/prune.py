@@ -49,9 +49,9 @@ if __name__ == '__main__':
     # Informations of model parameters
     # model.load_state_dict(torch.load('./outputs/resnet18/resnet18_100epoch/80.pt')['model_state_dict'])
     # model.load_state_dict(torch.load('./outputs/resnet18/2022-08-09_00-12-34/2.pt')['model_state_dict'])
-    model.cuda()
+    # model.cuda()
     print("Before Pruning")
-    print(pms.summary(model, torch.zeros(1, 3, 640, 480).cuda()))
+    print(pms.summary(model, torch.zeros(1, 3, 640, 480)))
     model.eval()
 
     pruned_model = prune_model(model)
