@@ -125,10 +125,11 @@ seg_data: 직접 타이어만 마스킹해서 배경은 검은색으로 설정�
 - V 2.0 (2022-03-09)
   - ~~[apk 파일](/app/build/outputs/apk/debug/app-debug.apk)~~
   - 데모영상
+
     <img width="60%" src="/videos/Demo.gif">
 
 - V 3.0 (2022-06-03)
   - [apk 파일](/app/build/outputs/apk/debug/app-debug.apk)
 
 - V 4.0 (2022-11-10)
--  [apk 파일](https://drive.google.com/file/d/1SUQWwoop4BjnOAKmdutXElJbVmCiLcFo/view?usp=share_link)
+  - [apk 파일](https://drive.google.com/file/d/1SUQWwoop4BjnOAKmdutXElJbVmCiLcFo/view?usp=share_link)
